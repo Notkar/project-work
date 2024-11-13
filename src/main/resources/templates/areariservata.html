@@ -164,7 +164,7 @@
             <h2>Informazioni Utente</h2>
             <p><strong>Nome:</strong> <span th:text="${utente.nome}"></span></p>
             <p><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></p>
-            <p><strong>Data di Nascita:</strong> <span th:text="${utente.dataNascita}"></span></p>
+            <p><strong>Data di Nascita:</strong> <span th:text="${#temporals.format(utente.dataNascita, 'dd/MM/yyyy')}"></span></p>
             <p><strong>Email:</strong> <span th:text="${utente.email}"></span></p>
             <p><strong>Username:</strong> <span th:text="${utente.username}"></span></p>
 

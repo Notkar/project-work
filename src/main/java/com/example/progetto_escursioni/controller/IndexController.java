@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
@@ -36,6 +37,8 @@ public class IndexController {
         // recupero utente in sessione se presente e registro sul model questa cosa per poter cambiare scritta di tasto area riservata
         model.addAttribute("utenteLogged", session.getAttribute("utente") != null); // (session.getAttribute("utente") != null ? true : false)
 
+        // DA RICONTROLLARE utenteLogged
+
         // return pagina
         return "index";
     }
@@ -43,12 +46,6 @@ public class IndexController {
     // per gestire alcuni potenziali errori di richiesta
     @GetMapping("/null")
     public String nullRedirectToHome(){
-        return "redirect:/";
-    }
-
-    // per gestire alcuni potenziali errori di richiesta
-    @GetMapping("/error")
-    public String errorRedirectToHome(){
         return "redirect:/";
     }
 

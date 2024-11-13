@@ -31,15 +31,19 @@ public class AreaRiservataController {
     @GetMapping
     public String getPage(HttpSession session,
                           Model model,
-                          @ModelAttribute("utente") Utente utente,
                           @RequestParam(name = "candidatura", required = false) String successoCandidatura) {
 
         // check per vedere se c'è un utente in sessione, altrimenti fa redirect a loginregistrazione
         if (session.getAttribute("utente") != null) {
-            utente = (Utente) session.getAttribute("utente");
+            // recupero utente da session e lo salvo nel model per stamparne le variabili tramite thymeleaf
+            Utente utente = (Utente) session.getAttribute("utente");
             model.addAttribute("utente", utente);
+
+            // creo oggetto candidato per poterci fare il binding con il form per le candidature
             Candidato candidato = new Candidato();
             model.addAttribute("candidato", candidato);
+
+            // recupero la lista di prenotazioni associate all'utente e la salvo nel model per iterare con thymeleaf
             List<Prenotazione> prenotazioni = prenotazioneService.elencoPrenotazioniUtente(utente.getId());
             model.addAttribute("prenotazioni", prenotazioni);
 
@@ -47,13 +51,15 @@ public class AreaRiservataController {
             if(successoCandidatura != null && successoCandidatura.equals("true")){
                 model.addAttribute("messaggio", "Candidatura inviata con successo: ti risponderemo al più presto!");
             } else if (successoCandidatura != null && successoCandidatura.equals("false")){
-                model.addAttribute("messaggio", "Non puoi inviare un'altra candidatura!");
+                model.addAttribute("messaggio", "Non puoi inviare un'altra candidatura!"); // caso che non dovrebbe essere possibile, lasciato per sicurezza
             }
 
             // se c'è una candidatura associata all'utente registro nel model una stringa per far comparire lo script per disabilitare il tasto di candidatura
             if(!candidatoService.controlloCandidato(utente.getId())) {
+                // se non è vero che non ha trovato un candidato = se è vero che ha trovato un candidato...
                 model.addAttribute("candidaturaBloccata", true);
             } else {
+                // altrimenti se non ha trovato un candidato...
                 model.addAttribute("candidaturaBloccata", false);
             }
 
@@ -86,6 +92,5 @@ public class AreaRiservataController {
         else {
             return "redirect:/areariservata?candidatura=false";
         }
-
     }
 }

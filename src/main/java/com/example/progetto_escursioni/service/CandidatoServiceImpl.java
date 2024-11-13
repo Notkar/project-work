@@ -28,9 +28,11 @@ public class CandidatoServiceImpl implements CandidatoService {
         Candidato candidato = candidatoDao.selectCandidatiWhereIdUtente(idUtente);
 
         if (candidato != null) {
+            // ritorna false se HA TROVATO un candidato
             return false;
         }
 
+        // ritorna true quando NON HA TROVATO un candidato
         return true;
     }
 }

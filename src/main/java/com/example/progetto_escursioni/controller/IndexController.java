@@ -46,4 +46,10 @@ public class IndexController {
         return "redirect:/";
     }
 
+    // per gestire alcuni potenziali errori di richiesta
+    @GetMapping("/error")
+    public String errorRedirectToHome(){
+        return "redirect:/";
+    }
+
 }

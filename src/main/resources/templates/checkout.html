@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+    <link th:href="@{CSS/style.css}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .btn-custom {
+             background-color: rgb(255, 65, 65);
+             border: none;
+             color: white;
+            }
+        .btn-custom:hover {
+             background-color: rgb(255, 65, 65);
+            }
+    </style>
+</head>
+<body>
+<div class="container mb-5 mt-3">
+    <div class="d-flex justify-content-between align-items-center ">
+        <!-- Bottone Indietro -->
+        <a th:href="@{/checkout/indietro}" class="btn btn-custom mb-2">
+            <i class="bi bi-arrow-left"></i> <!-- Icona freccia -->
+        </a>
+
+        <!-- Titolo Checkout -->
+        <h2 class="text-center flex-grow-1 fw-bold">Checkout</h2>
+    </div>
+
+<form id="checkoutForm" method="post" action="/checkout/invia">
+    <!-- Sezione Dettagli Cliente -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Dettagli Cliente</h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome e cognome</label>
+                <input type="text" class="form-control" id="name" name="nomeCompleto" required
+                       placeholder="Inserisci nome e cognome" maxlength="100" list="nomeCognomeUtente">
+                <datalist id="nomeCognomeUtente">
+                    <option th:value="${utente.nome} + ' ' + ${utente.cognome}"></option>
+                </datalist>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required
+                       placeholder="Inserisci la tua email" maxlength="50" list="emailUtente">
+                <datalist id="emailUtente">
+                    <option th:value="${utente.email}"></option>
+                </datalist>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Numero di Telefono</label>
+                <input type="tel" class="form-control" id="phone" name="telefono"
+                       placeholder="Inserisci il tuo numero di telefono" required maxlength="15">
+            </div>
+            <div class="mb-3">
+                <label for="numeroPartecipanti" class="form-label">Numero di Partecipanti (Max 4): </label>
+                <select class="form-select" id="numeroPartecipanti" name="numeroPartecipanti" required>
+                    <option selected value="" disabled>Scegliere il numero di partecipanti</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="dateDisponibili" class="form-label">Date Disponibili: </label>
+                <select class="form-select" id="dateDisponibili" name="dataOraScelta" required>
+                    <option selected disabled value="">Scegliere data</option>
+                    <option th:each="data : ${dateDisponibili}"
+                            th:text="${#temporals.format(data.data, 'dd/MM/yyyy')} + ' - ' + ${data.ora}"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione Metodo di Pagamento -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Metodo di Pagamento</h4>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="cardNumber" class="form-label">Numero di Carta</label>
+                <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="expiryDate" class="form-label">Data di Scadenza</label>
+                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione Riepilogo Ordine -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Riepilogo Ordine</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <input type="hidden" id="idItinerario" th:value="${itinerario.id}" name="idItinerario">
+                    <span class="align-middle"><strong>Itinerario: </strong><span class="align-middle" th:text="${itinerario.nome}"></span></span>
+                    <div class="d-flex align-items-center">
+                        <label for="totale" class="form-label me-2 mb-0 align-middle"><strong>Totale:</strong></label>
+                        <input type="text" class="form-control text-center" id="totale" required readonly value="€0.00"
+                               style="width: 100px; text-align: right; color:black;" form="checkoutForm" name="totale">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Pulsante di Invio -->
+    <button type="submit" class="btn btn-lg w-100 mb-4">Completa il Pagamento</button>
+</form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{checkoutFormValidation.js}"></script>
+<script th:src="@{controlloPrezzo.js}"></script>
+</body>
+</html>

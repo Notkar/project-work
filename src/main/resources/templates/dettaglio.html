@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dettagli Itinerario</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link th:href="@{CSS/style.css}" rel="stylesheet">
+    <!-- CSS di Fancybox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0.30/dist/fancybox.css"/>
+
+    <style>
+        .container {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 0.1vh solid #D3CBBF;
+        }
+        .star-rating {
+            color: black;
+        }
+
+        .map-container {
+            height: 300px;
+            width: 100%;
+        }
+
+        .image-container img {
+            width: 100%; /* Adatta l'immagine alla larghezza del contenitore */
+            height: auto; /* Mantiene le proporzioni originali */
+            object-fit: cover; /* Taglia l'immagine per riempire il div */
+            max-height: 200px; /* Imposta un'altezza massima per tutte le immagini */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1{
+            font-weight: bold;
+        }
+        h4 {
+            font-weight: bold;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper ">
+    <!-- Navbar -->
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-0">
+                <div class="d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
+                    <img src="logo_no_sfondo_ritaglio.png" alt="logo"
+                         style="max-height: 80px; width: auto;">
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse " id="navbarContent">
+                    <ul class="navbar-nav mx-auto text-center">
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/itinerari}">Itinerari</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/guide}">Guide</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/#chi-siamo}">Chi Siamo</a>
+                        </li>
+                    </ul>
+
+                    <div class="text-center text-sm-end mt-3 mt-sm-0">
+                        <a th:href="@{/areariservata}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Corpo -->
+    <div class="container mt-5 mb-4">
+        <h1 class="text-center mb-4 " th:text="${itinerario.nome}">Titolo dell'Itinerario</h1>
+        <div class="row d-flex align-items-stretch"> <!-- Aggiunto d-flex e align-items-stretch -->
+            <div class="col-md-6">
+                <div class="card h-100"> <!-- Aggiunto h-100 -->
+                    <div class="card-body">
+                        <h5>Dettagli</h5>
+                        <p><strong>Regione: </strong><span th:text="${itinerario.regione}"></span></p>
+                        <p>
+                            <strong>Difficoltà: </strong>
+                            <span th:text="${#strings.capitalize(itinerario.difficolta)}"></span>
+                            <span class="star-rating" th:attr="data-difficolta=${itinerario.difficolta}">
+                        ★★★★★ <!-- Stelle placeholder, aggiornate dal JavaScript -->
+                    </span>
+                        </p>
+                        <p><strong>Lunghezza del percorso: </strong><span
+                                th:text="${itinerario.distanza + ' metri'}"></span></p>
+                        <p><strong>Dislivello: </strong><span th:text="${itinerario.dislivello + ' metri'}"></span></p>
+                        <p><strong>Durata media: </strong><span
+                                th:with="hours=${T(java.lang.Math).floor(itinerario.durataMedia / 60)}, remainingMinutes=${itinerario.durataMedia % 60}"
+                                th:text="${hours != 0 ? #numbers.formatDecimal(hours, 0, 'POINT', 0, 'COMMA') + 'h ' : ''} + ${remainingMinutes !=0 ? remainingMinutes + 'm' : ''}"></span>
+                        </p>
+                        <p><strong>Prezzo per partecipante: </strong><span
+                                th:text="${#numbers.formatDecimal(itinerario.prezzo, 0, 'POINT', 2, 'COMMA') + '€'}"></span>
+                        </p>
+                        <p><strong>Date disponibili: </strong><span th:if="${#lists.isEmpty(dateDisponibili)}" th:text="'Nessuna data disponibile'"></span></p>
+                        <ul>
+                            <li th:each="data : ${dateDisponibili}"
+                                th:text="${#temporals.format(data.data, 'dd/MM/yyyy')} + ' - ' + ${data.ora}">11/09/2001
+                                12:00
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="map-container card h-100"> <!-- Aggiunto h-100 -->
+                    <iframe th:src="${itinerario.mappa}" width="100%" height="100%" style="border-radius: 6px" allowfullscreen=""
+                            loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="mx-5 mt-4" style="text-align: justify;">
+            <h5 class="text-center fw-bold">Descrizione</h5>
+            <p th:text="${itinerario.descrizione}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci,
+                alias animi assumenda at consequatur cumque dolore incidunt itaque iusto magnam obcaecati porro
+                reiciendis rem repudiandae, similique sint sit sunt temporibus!</p>
+        </div>
+
+        <div class="text-center my-4">
+            <a class="btn" th:href="@{/checkout(id=${itinerario.id})}" id="tastoPrenotaItinerario" th:text="${prenotazioneBloccata ? 'Non disponibile' : 'Prenota Itinerario'}">Prenota Itinerario</a>
+        </div>
+        <hr>
+        <div class="image-container my-3">
+            <h4 >Galleria Immagini</h4>
+            <div class="row">
+                <div class="col-md-4" th:each="foto : ${fotoItinerario}">
+                    <!-- Controllo per se l'immagine esiste -->
+                    <a th:if="${foto.foto != null}" th:href="${foto.foto}" data-fancybox="gallery">
+                        <img th:src="${foto.foto}" alt="Foto itinerario">
+                    </a>
+                    <!-- Controllo per immagine di default -->
+                    <a th:if="${foto.foto == null}" th:href="@{/markerImage.png}" data-fancybox="gallery">
+                        <img th:src="@{/markerImage.png}" alt="Foto itinerario">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="mt-4">
+    <div class="container-fluid">
+        <div class="row gy-4">
+            <div class="col-12 col-md-6">
+                <h5 class="mb-2">Contatti</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Email: info@example.com</li>
+                    <li class="mb-2">Telefono: +39 123 456 789</li>
+                    <li>Indirizzo: Via Roma 123, 00100 Roma, Italia</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+                <h5 class="mb-3">Seguici sui Social</h5>
+                <div class="d-flex gap-3 justify-content-md-end justify-content-start social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS di jQuery (se non è già incluso) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JS di Fancybox -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0.30/dist/fancybox.umd.js"></script>
+
+<!-- Script Stelle -->
+<script>
+    // Seleziona l'elemento star-rating e ottieni la difficoltà dal data-attribute
+    const starRatingElement = document.querySelector('.star-rating');
+    const difficolta = starRatingElement.getAttribute('data-difficolta')?.toLowerCase().trim();
+
+    // Assegna le stelle in base alla difficoltà
+    let stars = '';
+    if (difficolta === 'facile') {
+        stars = '★☆☆'; // 1 stella piena, 2 vuote
+    } else if (difficolta === 'media') {
+        stars = '★★☆'; // 2 stelle piene, 1 vuota
+    } else if (difficolta === 'difficile') {
+        stars = '★★★'; // 3 stelle piene, 0 vuote
+    } else {
+        stars = 'N/A'; // Valore predefinito nel caso la difficoltà non corrisponda
+    }
+
+    // Aggiorna il contenuto dell'elemento star-rating con il numero di stelle corretto
+    starRatingElement.textContent = stars;
+</script>
+<script th:if="${prenotazioneBloccata}">
+    document.getElementById("tastoPrenotaItinerario").classList.add("disabled");
+</script>
+</body>
+</html>

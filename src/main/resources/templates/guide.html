@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{CSS/style.css}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        .card img {
+            width: 150px;
+            height: 225px;
+            object-fit: cover;
+            border-radius: 2% 0 0 2%;
+        }
+        .card-content {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Ingrandisce leggermente la card */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
+        }
+
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <!-- Header -->
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-0">
+                <div class="d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
+                    <img src="logo_no_sfondo_ritaglio.png" alt="logo"
+                         style="max-height: 80px; width: auto;">
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse " id="navbarContent">
+                    <ul class="navbar-nav mx-auto text-center">
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/itinerari}">Itinerari</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/guide}">Guide</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-bold" th:href="@{/#chi-siamo}">Chi Siamo</a>
+                        </li>
+                    </ul>
+
+                    <div class="text-center text-sm-end mt-3 mt-sm-0">
+                        <a th:href="@{/areariservata}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container text-center my-4" style="font-family: 'Arial', sans-serif;">
+        <h5 class="fw-bold">Le Nostre Guide</h5>
+        <p>
+            Esplora la nostra selezione di guide esperte, ciascuna con anni di esperienza e una profonda conoscenza del territorio. Scopri di più su di loro e lasciati consigliare dai migliori per vivere un’esperienza indimenticabile nella natura. Ogni guida ha una piccola descrizione personale per aiutarti a scegliere chi potrà accompagnarti nella tua prossima avventura.
+        </p>
+    </div>
+
+
+
+    <section class="container py-5">
+        <div class="row gy-4"> <!-- Aggiunta della classe gy-4 per margini verticali -->
+            <div class="col-md-6" th:each="guida : ${listaGuide}">
+                <div class="mb-4">
+                    <div class="card card-content">
+                        <img th:src="@{${guida.foto == null ? 'markerImage.png' : guida.foto}}" class="card-img-left"
+                             alt="Guida 1">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${guida.nome + ' ' + guida.cognome}">Guida 1</h5>
+                            <p class="card-text" th:text="${guida.descrizione}">Descrizione card guida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+<!-- Footer -->
+<footer class="mt-4">
+    <div class="container-fluid">
+        <div class="row gy-4">
+            <div class="col-12 col-md-6">
+                <h5 class="mb-2">Contatti</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">Email: info@example.com</li>
+                    <li class="mb-2">Telefono: +39 123 456 789</li>
+                    <li>Indirizzo: Via Roma 123, 00100 Roma, Italia</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+                <h5 class="mb-3">Seguici sui Social</h5>
+                <div class="d-flex gap-3 justify-content-md-end justify-content-start social-icons">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</body>
+</html>

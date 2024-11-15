@@ -60,7 +60,7 @@
                         <option value="calabria">Calabria</option>
                         <option value="campania">Campania</option>
                         <option value="emilia-romagna">Emilia-Romagna</option>
-                        <option value="friuli-venezia-giulia">Friuli Venezia Giulia</option>
+                        <option value="friuli-venezia giulia">Friuli Venezia Giulia</option>
                         <option value="lazio">Lazio</option>
                         <option value="liguria">Liguria</option>
                         <option value="lombardia">Lombardia</option>
@@ -71,9 +71,9 @@
                         <option value="sardegna">Sardegna</option>
                         <option value="sicilia">Sicilia</option>
                         <option value="toscana">Toscana</option>
-                        <option value="trentino-alto-adige">Trentino-Alto Adige</option>
+                        <option value="trentino-alto adige">Trentino-Alto Adige</option>
                         <option value="umbria">Umbria</option>
-                        <option value="valle-d-aosta">Valle d'Aosta</option>
+                        <option value="valle d_aosta">Valle d'Aosta</option>
                         <option value="veneto">Veneto</option>
                     </select>
                     <button class="btn" type="submit">Cerca</button>
@@ -107,7 +107,7 @@
                          style="height: 250px;"
                          alt="Immagine itinerario">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title" th:text="${itinerario.nome} + ' (' + ${itinerario.regione} + ')'">Itinerario 1</h5>
+                        <h5 class="card-title" th:text="${itinerario.nome} + ' (' + ${#strings.replace(itinerario.regione, '_', '''')} + ')'">Itinerario 1</h5>
 
                         <!-- Versione breve del testo (sempre visibile) -->
                         <p class="card-text" th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">

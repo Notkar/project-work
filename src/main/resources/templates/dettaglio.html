@@ -96,7 +96,7 @@
                 <div class="card h-100"> <!-- Aggiunto h-100 -->
                     <div class="card-body">
                         <h5>Dettagli</h5>
-                        <p><strong>Regione: </strong><span th:text="${itinerario.regione}"></span></p>
+                        <p><strong>Regione: </strong><span th:text="${#strings.replace(itinerario.regione, '_', '''')}"></span></p>
                         <p>
                             <strong>Difficoltà: </strong>
                             <span th:text="${#strings.capitalize(itinerario.difficolta)}"></span>

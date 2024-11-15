@@ -70,7 +70,7 @@
                                 <option value="calabria">Calabria</option>
                                 <option value="campania">Campania</option>
                                 <option value="emilia-romagna">Emilia-Romagna</option>
-                                <option value="friuli-venezia-giulia">Friuli Venezia Giulia</option>
+                                <option value="friuli-venezia giulia">Friuli Venezia Giulia</option>
                                 <option value="lazio">Lazio</option>
                                 <option value="liguria">Liguria</option>
                                 <option value="lombardia">Lombardia</option>
@@ -81,9 +81,9 @@
                                 <option value="sardegna">Sardegna</option>
                                 <option value="sicilia">Sicilia</option>
                                 <option value="toscana">Toscana</option>
-                                <option value="trentino-alto-adige">Trentino-Alto Adige</option>
+                                <option value="trentino-alto adige">Trentino-Alto Adige</option>
                                 <option value="umbria">Umbria</option>
-                                <option value="valle-d-aosta">Valle d'Aosta</option>
+                                <option value="valle d_aosta">Valle d'Aosta</option>
                                 <option value="veneto">Veneto</option>
                             </select>
                         </div>
@@ -155,7 +155,7 @@
                                     <!-- Regione -->
                                     <div class="d-flex align-items-center mb-2">
                                         <strong>Regione:</strong>
-                                        <span class="ms-2" th:text="${itinerario.regione}"></span>
+                                        <span class="ms-2" th:text="${#strings.replace(itinerario.regione, '_', '''')}"></span>
                                     </div>
 
                                     <!-- Dislivello -->

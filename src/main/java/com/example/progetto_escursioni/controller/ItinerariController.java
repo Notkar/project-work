@@ -23,7 +23,10 @@ public class ItinerariController {
     @GetMapping
     public String getPage(
             HttpSession session,
-            Model model){
+            Model model,
+            @RequestParam(name = "regione", required = false) String regioneSelezionata,
+            @RequestParam(name = "difficolta", required = false) String difficoltaSelezionata,
+            @RequestParam(name = "ordinaPer", required = false) String ordinaPerSelezionato){
 
         // recupero lista tutti itinerari per stampare opzioni di datalist per suggerimento di ricerca
         listaTuttiItinerari = itinerarioService.elencoItinerari();
@@ -40,6 +43,14 @@ public class ItinerariController {
 
         // recupero utente in sessione se presente e registro sul model questa cosa per poter cambiare scritta di tasto area riservata
         model.addAttribute("utenteLogged", session.getAttribute("utente") != null); // (session.getAttribute("utente") != null ? true : false)
+
+        model.addAttribute("regioneSelezionata", regioneSelezionata);
+        if (difficoltaSelezionata == null || difficoltaSelezionata.equals("null")) {
+            model.addAttribute("difficoltaSelezionata", "facile,media,difficile");
+        } else {
+            model.addAttribute("difficoltaSelezionata", difficoltaSelezionata);
+        }
+        model.addAttribute("ordinaPerSelezionato", ordinaPerSelezionato);
 
         return "itinerari";
     }
@@ -63,7 +74,7 @@ public class ItinerariController {
         // aggiungo a session per recuperarlo nel GetMapping principale
         session.setAttribute("itinerariVisualizzatiDaRicerca", itinerariVisualizzati);
 
-        return "redirect:/itinerari";
+        return "redirect:/itinerari?regione=" + regione + "&difficolta=" + difficolta + "&ordinaPer=" + ordinaPer;
     }
 
     @PostMapping("/ricerca")

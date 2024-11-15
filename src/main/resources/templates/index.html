@@ -53,8 +53,9 @@
             <div class="search-container">
                 <form action="/itinerari?fromHome" method="post" class="d-flex gap-3">
                     <select class="select form-select" aria-label="Seleziona Regione" name="regione" required>
-                        <option selected disabled value="">Seleziona una regione...</option>
+                        <option selected disabled hidden value="">Seleziona una regione...</option>
                         <option value="tutte-regioni">Tutte le regioni</option>
+                        <option value="" disabled>------------------------------</option>
                         <option value="abruzzo">Abruzzo</option>
                         <option value="basilicata">Basilicata</option>
                         <option value="calabria">Calabria</option>

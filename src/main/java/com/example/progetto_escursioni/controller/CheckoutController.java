@@ -128,7 +128,7 @@ public class CheckoutController {
 
     @GetMapping("/indietro")
     public String tornaIndietro(HttpSession session,
-                                @RequestParam(name = "id", required = false) int idItinerario) {
+                                @RequestParam("id") int idItinerario) {
         // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
         session.setAttribute("paginaPrecedente", "dettaglio?id=" + itinerarioService.dettaglioItinerario(idItinerario).getId());
 

@@ -76,8 +76,14 @@ public class LoginRegistrazioneController {
         }
     }
 
+    // mapping per tasto indietro
     @GetMapping("/indietro")
     public String tornaIndietro(HttpSession session) {
+        // i mapping sono strutturati in modo che se vado sulla pagina di checkout di un itinerario ma non sono loggato, allora vengo reindirizzato sulla pagina di login
+        // questo vuol dire che se paginaPrecedente è una pagina di checkout di un dato itinerario, quando l'utente preme sul tasto indietro dobbiamo piuttosto far tornare alla pagina di dettaglio di quell'itinerario invece che alla pagina di checkout, perché altrimenti saremmo subito reindirizzati sulla pagina corrente (la pagina di login)
+        if(((String)session.getAttribute("paginaPrecedente")).contains("checkout")) {
+            return "redirect:/" + ((String)session.getAttribute("paginaPrecedente")).replace("checkout", "dettaglio"); // redirect:/checkout?id=### -> redirect:/dettaglio?id=###
+        }
         return "redirect:/" + session.getAttribute("paginaPrecedente");
     }
 }

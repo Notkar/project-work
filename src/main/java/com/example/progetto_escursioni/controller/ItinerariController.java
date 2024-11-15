@@ -24,6 +24,7 @@ public class ItinerariController {
     public String getPage(
             HttpSession session,
             Model model,
+            // questi @RequestParam sono per poi salvare i filtri selezionati tra una ricerca e un'altra
             @RequestParam(name = "regione", required = false) String regioneSelezionata,
             @RequestParam(name = "difficolta", required = false) String difficoltaSelezionata,
             @RequestParam(name = "ordinaPer", required = false) String ordinaPerSelezionato){
@@ -44,11 +45,14 @@ public class ItinerariController {
         // recupero utente in sessione se presente e registro sul model questa cosa per poter cambiare scritta di tasto area riservata
         model.addAttribute("utenteLogged", session.getAttribute("utente") != null); // (session.getAttribute("utente") != null ? true : false)
 
+        // per salvare i filtri selezionati tra una ricerca e un'altra li aggiungo al model e poi faccio dei controlli lato thymeleaf usando th:selected o th:checked
+        // tendenzialmente non occorrono controlli perché il metodo #strings.equals() di thymeleaf si occupa già da solo del caso in cui l'argomento è null
         model.addAttribute("regioneSelezionata", regioneSelezionata);
-        if (difficoltaSelezionata == null || difficoltaSelezionata.equals("null")) {
-            model.addAttribute("difficoltaSelezionata", "facile,media,difficile");
+        // per difficoltaSelezionata occorre fare attenzione perché si usa #strings.contains() che con un argomento null lancia un'eccezione
+        if (difficoltaSelezionata == null || difficoltaSelezionata.equals("null")) { // controllo per quando difficoltaSelezionata è null (= quando premiamo su "Itinerari" nella navbar) e per quando è una stringa di valore "null" (= quando abbiamo usato il select in index.html)
+            model.addAttribute("difficoltaSelezionata", "facile,media,difficile"); // in quei casi vogliamo fare che sono selezionate tutte le opzioni di difficoltà (stato di default del form)
         } else {
-            model.addAttribute("difficoltaSelezionata", difficoltaSelezionata);
+            model.addAttribute("difficoltaSelezionata", difficoltaSelezionata); // altrimenti solo le opzioni che sono state selezionate durante l'ultima volta che si sono usati i filtri
         }
         model.addAttribute("ordinaPerSelezionato", ordinaPerSelezionato);
 

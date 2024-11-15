@@ -31,9 +31,6 @@ public class IndexController {
         // registro in model per thymeleaf
         model.addAttribute("caroselloItinerari", caroselloItinerari.subList(0,3));
 
-        // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
-        session.setAttribute("paginaPrecedente", "");
-
         // recupero utente in sessione se presente e registro sul model questa cosa per poter cambiare scritta di tasto area riservata
         model.addAttribute("utenteLogged", session.getAttribute("utente") != null); // (session.getAttribute("utente") != null ? true : false)
 
@@ -41,6 +38,14 @@ public class IndexController {
 
         // return pagina
         return "index";
+    }
+
+    // gestione tasto area riservata (x funzionalità di ritorno indietro con login)
+    @GetMapping("/toareariservata")
+    public String toAreaRiservata(HttpSession session){
+        // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
+        session.setAttribute("paginaPrecedente", "");
+        return "redirect:/areariservata";
     }
 
     // per gestire alcuni potenziali errori di richiesta

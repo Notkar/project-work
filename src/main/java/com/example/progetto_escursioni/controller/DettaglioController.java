@@ -32,6 +32,7 @@ public class DettaglioController {
         // creo un oggetto itinerario in base all'id fornito e lo registro nel model
         Itinerario itinerario = itinerarioService.dettaglioItinerario(idItinerario);
         model.addAttribute("itinerario", itinerario);
+
         // recupero la lista delle foto associate all'itinerario e le registro nel model
         List<Foto> fotoItinerario = itinerario.getFotoItinerario();
         model.addAttribute("fotoItinerario", fotoItinerario);
@@ -40,11 +41,10 @@ public class DettaglioController {
         List<DataDisponibile> dateDisponibili = itinerario.getDateDisponibiliItinerario();
         model.addAttribute("dateDisponibili", dateDisponibili);
 
-        model.addAttribute("prenotazioneBloccata", dateDisponibili.isEmpty());
+        // se almeno una data nella lista è valida, allora abilito il pulsante prenotazione (che di base è disabled)
+        model.addAttribute("prenotazioneBloccata", true);
         for(DataDisponibile data : dateDisponibili) {
-            if (data.getData().isBefore(LocalDate.now()) || data.getData().equals(LocalDate.now())) {
-                model.addAttribute("prenotazioneBloccata", true);
-            } else {
+            if (data.getData().isAfter(LocalDate.now())) {
                 model.addAttribute("prenotazioneBloccata", false);
             }
         }
@@ -56,6 +56,15 @@ public class DettaglioController {
         model.addAttribute("utenteLogged", session.getAttribute("utente") != null); // (session.getAttribute("utente") != null ? true : false)
 
         return "dettaglio";
+    }
+
+    // gestione tasto area riservata (x funzionalità di ritorno indietro con login)
+    @GetMapping("/toareariservata")
+    public String toAreaRiservata(HttpSession session,
+                                  @RequestParam("id") int idItinerario){
+        // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
+        session.setAttribute("paginaPrecedente", "dettaglio?id=" + itinerarioService.dettaglioItinerario(idItinerario).getId());
+        return "redirect:/areariservata";
     }
 
 }

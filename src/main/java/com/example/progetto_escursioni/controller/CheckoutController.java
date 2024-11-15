@@ -51,7 +51,7 @@ public class CheckoutController {
             List<DataDisponibile> dateDisponibili = itinerario.getDateDisponibiliItinerario();
             List<DataDisponibile> dateDisponibiliValide = new ArrayList<>();
             for(DataDisponibile data : dateDisponibili) {
-                if (!(data.getData().isBefore(LocalDate.now()) || data.getData().equals(LocalDate.now()))) {
+                if (data.getData().isAfter(LocalDate.now())) {
                     dateDisponibiliValide.add(data);
                 }
             }
@@ -60,6 +60,9 @@ public class CheckoutController {
             return "checkout";
         }
         else {
+            // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
+            session.setAttribute("paginaPrecedente", "checkout?id=" + itinerarioService.dettaglioItinerario(idItinerario).getId());
+
             return "redirect:/loginregistrazione";
         }
     }
@@ -124,7 +127,11 @@ public class CheckoutController {
     }
 
     @GetMapping("/indietro")
-    public String tornaIndietro(HttpSession session) {
+    public String tornaIndietro(HttpSession session,
+                                @RequestParam(name = "id", required = false) int idItinerario) {
+        // registro in sessione la pagina corrente, per eventuali tasti "indietro" o per quando fai il login
+        session.setAttribute("paginaPrecedente", "dettaglio?id=" + itinerarioService.dettaglioItinerario(idItinerario).getId());
+
         return "redirect:/" + session.getAttribute("paginaPrecedente");
     }
 }

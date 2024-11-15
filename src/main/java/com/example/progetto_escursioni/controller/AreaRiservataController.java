@@ -76,7 +76,7 @@ public class AreaRiservataController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("utente");
-        return "redirect:/";
+        return "redirect:/" + session.getAttribute("paginaPrecedente");
     }
 
     @PostMapping("/candidati")
@@ -93,4 +93,5 @@ public class AreaRiservataController {
             return "redirect:/areariservata?candidatura=false";
         }
     }
+
 }

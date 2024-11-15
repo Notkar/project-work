@@ -80,7 +80,7 @@
                     </ul>
 
                     <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/areariservata}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                        <a th:href="@{/dettaglio/toareariservata(id=${itinerario.id})}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                         <p><strong>Dislivello: </strong><span th:text="${itinerario.dislivello + ' metri'}"></span></p>
                         <p><strong>Durata media: </strong><span
                                 th:with="hours=${T(java.lang.Math).floor(itinerario.durataMedia / 60)}, remainingMinutes=${itinerario.durataMedia % 60}"
-                                th:text="${hours != 0 ? #numbers.formatDecimal(hours, 0, 'POINT', 0, 'COMMA') + 'h ' : ''} + ${remainingMinutes !=0 ? remainingMinutes + 'm' : ''}"></span>
+                                th:text="${hours != 0 ? #numbers.formatDecimal(hours, 0, 'POINT', 0, 'COMMA') + 'h ' : ''} + ${remainingMinutes != 0 ? remainingMinutes + 'm' : ''}"></span>
                         </p>
                         <p><strong>Prezzo per partecipante: </strong><span
                                 th:text="${#numbers.formatDecimal(itinerario.prezzo, 0, 'POINT', 2, 'COMMA') + '€'}"></span>
@@ -146,14 +146,10 @@
         <div class="image-container my-3">
             <h4 >Galleria Immagini</h4>
             <div class="row">
+                <!-- Iterazione foto di itinerario -->
                 <div class="col-md-4" th:each="foto : ${fotoItinerario}">
-                    <!-- Controllo per se l'immagine esiste -->
                     <a th:if="${foto.foto != null}" th:href="${foto.foto}" data-fancybox="gallery">
                         <img th:src="${foto.foto}" alt="Foto itinerario">
-                    </a>
-                    <!-- Controllo per immagine di default -->
-                    <a th:if="${foto.foto == null}" th:href="@{/markerImage.png}" data-fancybox="gallery">
-                        <img th:src="@{/markerImage.png}" alt="Foto itinerario">
                     </a>
                 </div>
             </div>

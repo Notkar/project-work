@@ -45,7 +45,7 @@
                     </ul>
 
                     <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/areariservata}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                        <a th:href="@{/itinerari/toareariservata}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                                     </div>
 
                                     <!-- Pulsante per dettagli -->
-                                    <a th:href="@{/dettaglio(id=${itinerario.id})}" class="btn btn-primary mt-4">Scopri di più</a>
+                                    <a th:href="@{/dettaglio(id=${itinerario.id})}" class="btn mt-4">Scopri di più</a>
                                 </div>
                             </div>
                         </div>

@@ -93,4 +93,14 @@ public class AreaRiservataController {
         }
     }
 
+    @PostMapping("/controlloPassword")
+    @ResponseBody
+    public boolean controllaPassword(@RequestParam("password") String inputPassword,
+                                     HttpSession session) {
+        // recupero utente da sessione (c'è sempre perché siamo in area riservata)
+        Utente utente = (Utente)session.getAttribute("utente");
+        // ritorno true o false a seconda che l'input dell'utente sia uguale o meno alla password recuperata con il metodo getter getPassword()
+        return inputPassword.equals(utente.getPassword());
+    }
+
 }

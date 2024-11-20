@@ -229,6 +229,11 @@
             color: white;
         }
 
-
-
+        .password-toggle {
+            background-color: white;
+            color: black;
+            border-right: 1px solid #D3CBBF;
+            border-bottom: 1px solid #D3CBBF;
+            border-top: 1px solid #D3CBBF;
+        }
 

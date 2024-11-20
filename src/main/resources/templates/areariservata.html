@@ -179,14 +179,16 @@
                         </div>
                         <div class="modal-body">
                             <div class="controllo-password" id="controllo-password">
-                                <form method="post" action="#">
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Password: </label>
-                                        <input type="password" class="form-control mb-3" id="password" name="password"
-                                            placeholder="Inserisci la password"
-                                            required>
+                                <div class="input-group mb-3">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="password" name="password"
+                                               placeholder="Inserisci la password" required>
+                                        <label for="password">PASSWORD</label>
                                     </div>
-                                </form>
+                                    <button class="btn password-toggle" type="button" id="toggle-password">
+                                        <i id="icona-toggle" class="bi bi-eye-slash"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="modifica-dati" id="modifica-dati" style="display: none;">
                                 <form method="post" action="/loginregistrazione/registrazione" th:object="${utente}" id="formRegistrazione">
@@ -281,7 +283,7 @@
                     <input type="file" class="form-control" id="personalPhoto" name="foto" accept="image/*" required
                            th:field="*{foto}">
                 </div>
-                <button type="submit" class="btn btn-primary">Invia Richiesta</button>
+                <button type="submit" class="btn">Invia Richiesta</button>
             </form>
         </div>
 
@@ -413,6 +415,20 @@
         document.getElementById("controllo-password").style.display = "block";
         document.getElementById("modifica-dati").style.display = "none";
     });
+
+
+    // Pulsante vissualizza/nascondi password
+    document.getElementById("toggle-password").addEventListener("click", function() {
+        const passwordField = document.getElementById("password");
+        const iconToggle = document.getElementById("icona-toggle");
+
+        // Cambia il tipo del campo password
+        passwordField.type = passwordField.type == "password" ? "text" : "password";
+
+        // Cambia l'icona
+        iconToggle.className = iconToggle.className == "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
+    });
+
 </script>
 <script th:if="${candidaturaBloccata}">
     document.getElementById("toggle-guide-btn").disabled = true;

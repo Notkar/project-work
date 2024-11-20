@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css"
           rel="stylesheet">
     <link th:href="@{CSS/style.css}" rel="stylesheet">
@@ -13,10 +14,9 @@
 <div class="page-wrapper">
     <header class="container-fluid">
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid px-0">
-                <div class="d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
-                    <img src="logo_no_sfondo_ritaglio.png" alt="logo"
-                         style="max-height: 80px; width: auto;">
+            <div class="container-fluid">
+                <div class="div-logo d-flex justify-content-center align-items-center">
+                    <img class="logo" src="logo_no_sfondo_ritaglio.png" alt="logo">
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -40,18 +40,18 @@
                     </ul>
 
                     <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/toareariservata}" class="btn btn-outline" th:text="${utenteLogged == true ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                        <a th:href="@{/toareariservata}" class="btn btn-outline"
+                           th:text="${utenteLogged == true ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
             </div>
         </nav>
     </header>
 
-<section class="container-fluid py-5 bg">
-    <div class="row gx-0 justify-content-center align-items-center" style="min-height: 400px;">
-        <div class="col-6 col-md-6">
-            <div class="search-container">
-                <form action="/itinerari?fromHome" method="post" class="d-flex gap-3">
+    <section class="container-fluid py-5 sfondo-select">
+        <div class="row justify-content-center align-items-center div-select">
+            <div class="col-6 col-md-6">
+                <form action="/itinerari?fromHome" method="post" class="d-flex gap-2">
                     <select class="select form-select" aria-label="Seleziona Regione" name="regione" required>
                         <option selected disabled hidden value="">Seleziona una regione...</option>
                         <option value="tutte-regioni">Tutte le regioni</option>
@@ -81,13 +81,17 @@
                 </form>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-    <section  class="container-fluid py-5">
+    <section class="container-fluid py-5">
         <div id="chi-siamo" class="container py-1">
             <h5 class="text-center fw-bold mb-1">Chi Siamo</h5>
-            <p class="text-center">Siamo un team di professionisti appassionati dell’Italia e delle sue bellezze, impegnati nella creazione di itinerari esclusivi per chi desidera vivere un’esperienza autentica e indimenticabile. Le nostre escursioni spaziano dai tour enogastronomici alle avventure outdoor, offrendo un modo unico di esplorare luoghi straordinari e scoprire tradizioni locali. Con cura e attenzione a ogni dettaglio, progettiamo viaggi che ti faranno sentire parte del territorio, regalandoti momenti autentici e speciali. Affidati a noi per prenotare la tua prossima avventura in Italia!</p>
+            <p class="text-center">Siamo un team di professionisti appassionati dell’Italia e delle sue bellezze,
+                impegnati nella creazione di itinerari esclusivi per chi desidera vivere un’esperienza autentica e
+                indimenticabile. Le nostre escursioni spaziano dai tour enogastronomici alle avventure outdoor, offrendo
+                un modo unico di esplorare luoghi straordinari e scoprire tradizioni locali. Con cura e attenzione a
+                ogni dettaglio, progettiamo viaggi che ti faranno sentire parte del territorio, regalandoti momenti
+                autentici e speciali. Affidati a noi per prenotare la tua prossima avventura in Italia!</p>
         </div>
         <div style="text-align: center;">
             <h6 class="link-index d-inline-block text-center fw-bold">
@@ -108,10 +112,13 @@
                          style="height: 250px;"
                          alt="Immagine itinerario">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title" th:text="${itinerario.nome} + ' (' + ${#strings.replace(itinerario.regione, '_', '''')} + ')'">Itinerario 1</h5>
+                        <h5 class="card-title"
+                            th:text="${itinerario.nome} + ' (' + ${#strings.replace(itinerario.regione, '_', '''')} + ')'">
+                            Itinerario 1</h5>
 
                         <!-- Versione breve del testo (sempre visibile) -->
-                        <p class="card-text" th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">
+                        <p class="card-text"
+                           th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">
                             Descrizione breve...
                         </p>
                         <a th:href="@{/dettaglio(id=${itinerario.id})}" class="btn mt-auto">Scopri di più</a>
@@ -121,9 +128,9 @@
         </div>
         <div style="text-align: end;">
             <h5 class="link-index d-inline-block text-end mt-4">
-             <a href="#" style="color: #313131;" th:href="@{/itinerari}">
-                   Vai agli itinerari <i class="bi bi-arrow-right"></i>
-             </a>
+                <a href="#" style="color: #313131;" th:href="@{/itinerari}">
+                    Vai agli itinerari <i class="bi bi-arrow-right"></i>
+                </a>
             </h5>
         </div>
     </section>
@@ -153,6 +160,8 @@
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>

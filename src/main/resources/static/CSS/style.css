@@ -1,239 +1,257 @@
 /*
-            -forest-green: #2C5530;
-            -sage: #87976D;
-            -earth-brown: #8B7355;
-            -cream: #F5F1E9;
-            -stone: #D3CBBF;
-            -moss: #4A593D;
-        */
-        html{
-            font-size: 16px;
-            color: #313131;
-        }
+    -forest-green: #2C5530;
+    -sage: #87976D;
+    -earth-brown: #8B7355;
+    -cream: #F5F1E9;
+    -stone: #D3CBBF;
+    -moss: #4A593D;
+*/
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+/* ----------TUTTE LE PAGINE---------- */
+html {
+    font-size: 16px;
+}
 
-        .page-wrapper {
-            flex: 1 0 auto; /* Questo fa sì che il wrapper prenda tutto lo spazio disponibile */
-        }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F1E9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #F5F1E9;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+p {
+    font-size: 1rem;
+}
 
-        header {
-            background-color: white;
-            border-bottom: 1px solid #D3CBBF;
-        }
+h6 {
+    font-size: 1.2rem;
+}
 
-        .link-index {
-            transition: transform 0.5s ease, text-shadow 0.5s ease;
-        }
+h5 {
+    font-size: 1.44rem;
+}
 
-        .link-index:hover {
-            transform: translateY(-0.5vh);
-            text-shadow: 0.2vh 0.2vh 0.5vh rgba(0, 0, 0, 0.1);
-        }
+h4{
+    font-size: 1.728;
+}
 
-        .nav-item {
-            font-size: 1.35rem;
-            padding-left: 3.25vh;
-            padding-right: 3.25vh;
-        }
+h3 {
+    font-size: 2.074rem;
+}
 
-        .nav-link {
-            color: #313131;
-            font-weight: bold;
-            transition: transform 0.5s ease, text-shadow 0.5s ease;
-        }
+.page-wrapper {
+    flex: 1 0 auto; /* Questo fa sì che il wrapper prenda tutto lo spazio disponibile */
+}
 
-        .nav-link:hover {
-            transform: translateY(-0.5vh);
-            text-shadow: 0.2vh 0.2vh 0.5vh rgba(0, 0, 0, 0.1);
-        }
+/* HEADER */
+header {
+    background-color: white;
+    border-bottom: 1px solid #D3CBBF;
+}
 
-        .bg {
-            background-image: url("/mountains.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            padding: 8vh 0;
-        }
+.div-logo {
+    width: 5%;
+    height auto;
+    max-width: 125px;
+    min-width: 75px;
+}
 
-        .bg > * {
-            position: relative;
-            z-index: 1;
-        }
+.logo {
+    width: 100%;
+    height: auto;
+}
 
-        /* User Info Section */
-        .user-info {
-            background-color: white;
-            border: 0.1vh solid #D3CBBF;
-        }
+.nav-item {
+    font-size: 1.35rem;
+    padding-left: 3.25vh;
+    padding-right: 3.25vh;
+}
 
-        .menu-filtri {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+.nav-link {
+    color: #313131;
+    font-weight: bold;
+    transition: transform 0.5s ease, text-shadow 0.5s ease;
+}
 
-        /* Guide Section */
-        .guide-section {
-            background-color: #F5F1E9;
-            border: 0.1vh solid #87976D;
-            box-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.05);
-        }
+.nav-link:hover {
+    transform: translateY(-0.5vh);
+    text-shadow: 0.2vh 0.2vh 0.5vh rgba(0, 0, 0, 0.1);
+}
 
-        .btn {
-            background-color: #2C5530;
-            color: white;
-            border: none;
-            transition: all 0.3s ease;
-        }
+/* FOOTER */
+footer {
+    flex-shrink: 0;
+    background-image: url("/footer.jpg");
+    color: #F5F1E9;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left bottom;
+    padding: 4vh 0;
+}
 
-        .btn:hover {
-            background-color: #1C3D20;
-            color: white;
-            transform: translateY(-0.2vh);
-            box-shadow: 0 0.4vh 0.8vh rgba(44, 85, 48, 0.1);
-        }
+footer h5 {
+    color: #F5F1E9;
+    font-weight: 600;
+    margin-bottom: 2vh;
+    }
 
-        .btn-outline {
-            color: #2C5530;
-            border: 0.2vh solid #2C5530;
-            background-color: transparent;
-            font-weight: bold;
-        }
+footer a {
+    color: #F5F1E9;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
 
-        .btn-outline:hover {
-            background-color: #2C5530;
-            border-color: #2C5530;
-            color: white;
-        }
+footer a:hover {
+    color: white;
+}
 
-        /* Forms */
-        .form-control {
-            border-color: #D3CBBF;
-            color: #313131;
-        }
+footer ul li {
+    color: #F5F1E9;
+    font-size: 1rem;
+    margin-bottom: 1vh;
+}
 
-        .form-control:focus {
-            border-color: #87976D;
-            box-shadow: 0 0 0 0.25vh rgba(135, 151, 109, 0.25);
-        }
+.social-icons a {
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    color: #F5F1E9;
+    font-size: 1rem;
+    margin-left: 1.5vh;
+}
 
-        textarea.form-control {
-            background-color: white;
-        }
+/* VARIE */
+.btn {
+    background-color: #2C5530;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
 
-        footer {
-            flex-shrink: 0;
-            background-image: url("/footer.jpg");
-            color: #F5F1E9;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: left bottom;
-            padding: 4vh 0;
-        }
+.btn:hover {
+    background-color: #1C3D20;
+    color: white;
+    transform: translateY(-0.2vh);
+    box-shadow: 0 0.4vh 0.8vh rgba(44, 85, 48, 0.1);
+}
 
-        footer h5 {
-            color: #F5F1E9;
-            font-weight: 600;
-            margin-bottom: 2vh;
-        }
+.btn-outline {
+    color: #2C5530;
+    border: 0.2vh solid #2C5530;
+    background-color: transparent;
+    font-weight: bold;
+}
 
-        footer a {
-            color: #F5F1E9;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
+.btn-outline:hover {
+    background-color: #2C5530;
+    border-color: #2C5530;
+    color: white;
+}
 
-        footer a:hover {
-            color: white;
-        }
 
-        footer ul li {
-            color: #F5F1E9;
-            font-size: 1rem;
-            margin-bottom: 1vh;
-        }
 
-        .social-icons a {
-            text-decoration: none;
-            transition: transform 0.3s ease;
-            display: inline-block;
-            color: #F5F1E9;
-            font-size: 1rem;
-            margin-left: 1.5vh;
-        }
+/* ----------INDEX---------- */
 
-        .social-icons a:hover {
-            transform: translateY(-0.3vh);
-            color: white;
-            text-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.3);
-        }
+.link-index {
+    transition: transform 0.5s ease, text-shadow 0.5s ease;
+}
 
-        /* Personalizzazione del pulsante "Choose file" */
-        input[type="file"]::file-selector-button {
-            color: white;
-            background-color: #2C5530;
-        }
+.link-index:hover {
+    transform: translateY(-0.5vh);
+    text-shadow: 0.2vh 0.2vh 0.5vh rgba(0, 0, 0, 0.1);
+}
 
-        input[type="file"]::file-selector-button:hover {
-          background-color: #2C5530;
-        }
+.sfondo-select {
+    background-image: url("/mountains.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 8vh 0;
+    border-bottom: 1px solid #D3CBBF;
+}
 
-        .select:focus {
-            border-color: #2C5530;
-            box-shadow: 0 0 0 0.25vh rgba(44, 85, 48, 0.25);
-            outline: 0;
-        }
+.div-select {
+    min-height: 400px;
+}
 
-        h5 {
-            font-size: 1.44rem;
-        }
 
-        p {
-            font-size: 1rem;
-        }
 
-        h3 {
-            font-size: 2.074rem;
-        }
+/* ----------AREARISERVATA---------- */
 
-        h4{
-            font-size: 1.728;
-        }
+/* INFORMAZIONI UTENTE */
+.user-info {
+    background-color: white;
+    border: 0.1vh solid #D3CBBF;
+}
 
-        h6 {
-            font-size: 1.2rem;
-        }
+.menu-filtri {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
-        @media (min-width: 767.98px) {
-          .card-itinerari {
-            border-radius: 0.3rem 0 0 0.3rem !important;
-          }
-        }
+/* SEZIONE GUIDE */
+.guide-section {
+    background-color: #F5F1E9;
+    border: 0.1vh solid #87976D;
+    box-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.05);
+}
 
-        .btn:disabled {
-            background-color: #1C3D20;
-            color: white;
-        }
+/* Forms */
+.form-control {
+    border-color: #D3CBBF;
+    color: #313131;
+}
 
-        .password-toggle {
-            background-color: white;
-            color: black;
-            border-right: 1px solid #D3CBBF;
-            border-bottom: 1px solid #D3CBBF;
-            border-top: 1px solid #D3CBBF;
-        }
+.form-control:focus {
+    border-color: #87976D;
+    box-shadow: 0 0 0 0.25vh rgba(135, 151, 109, 0.25);
+}
+
+textarea.form-control {
+    background-color: white;
+}
+
+.social-icons a:hover {
+    transform: translateY(-0.3vh);
+    color: white;
+    text-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.3);
+}
+
+/* Personalizzazione del pulsante "Choose file" */
+input[type="file"]::file-selector-button {
+    color: white;
+    background-color: #2C5530;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #2C5530;
+}
+
+.select:focus {
+    border-color: #2C5530;
+    box-shadow: 0 0 0 0.25vh rgba(44, 85, 48, 0.25);
+    outline: 0;
+}
+
+@media (min-width: 767.98px) {
+    .card-itinerari {
+        border-radius: 0.3rem 0 0 0.3rem !important;
+    }
+}
+
+.btn:disabled {
+    background-color: #1C3D20;
+    color: white;
+}
+
+.password-toggle {
+    background-color: white;
+    color: black;
+    border-right: 1px solid #D3CBBF;
+    border-bottom: 1px solid #D3CBBF;
+    border-top: 1px solid #D3CBBF;
+}
 

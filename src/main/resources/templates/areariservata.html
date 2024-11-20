@@ -185,7 +185,7 @@
                                     <div class="form-floating">
                                         <input type="password" class="form-control" id="password" name="password"
                                                placeholder="Inserisci la password" required>
-                                        <label for="password">PASSWORD</label>
+                                        <label for="password">Password</label>
                                     </div>
                                     <button class="btn password-toggle" type="button" id="toggle-password">
                                         <i id="icona-toggle" class="bi bi-eye-slash"></i>
@@ -193,7 +193,7 @@
                                 </div>
                             </div>
                             <div class="modifica-dati" id="modifica-dati" style="display: none;">
-                                <form method="post" action="/loginregistrazione/registrazione" th:object="${utente}" id="formRegistrazione">
+                                <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaDati">
                                     <input type="hidden" th:field="*{id}">
                                     <div class="mb-3">
                                         <label for="nome" class="form-label">Nome: </label>
@@ -213,7 +213,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="nascita" class="form-label">Data di Nascita: </label>
-                                        <input type="date" class="form-control" id="nascita" th:field="*{dataNascita}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
+                                        <input type="date" class="form-control" id="nascita" name="dataNascita" th:value="${dataNascitaFormattata}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="register-password" class="form-label">Password: </label>
@@ -250,7 +250,7 @@
             </div>
 
             <p th:if="${messaggio != null}" th:text="${messaggio}"
-               th:style="${messaggio == 'Candidatura inviata con successo: ti risponderemo al più presto!' ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
+               th:style="${messaggio.equals('Candidatura inviata con successo: ti risponderemo al più presto!') || messaggio.equals('Modifica dati utente effettuata con successo') ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
 
             <!-- Logout Button -->
             <a th:href="@{/areariservata/logout}" class="Btn" style="position: absolute; top: 20px; right: 20px;">
@@ -366,6 +366,11 @@
 
 <!-- Script per mostrare/nascondere la sezione di iscrizione al ruolo di guida -->
 <script>
+    // costanti
+    const passwordField = document.getElementById("password");
+    const iconToggle = document.getElementById("icona-toggle");
+    const tastoProcedi = document.getElementById("procedi");
+
     // mostra/nascondi sezione guida
     document.getElementById('toggle-guide-btn').addEventListener('click', function() {
         let guideSection = document.getElementById('guide-section');
@@ -401,7 +406,7 @@
     });
 
 
-    document.getElementById("procedi").addEventListener("click", function() {
+    tastoProcedi.addEventListener("click", function() {
         const campoInputPassword = document.getElementById("password"); // acquisisco il campo della password
         campoInputPassword.setCustomValidity(''); // resetto la custom validity
 
@@ -422,17 +427,40 @@
                     document.getElementById("modifica-dati").style.display = "block";
                     // trasforma campo password in input type="password"
                     document.getElementById("register-password").type = "password";
+
+                    // modifico il tasto procedi
+                    tastoProcedi.type = "submit";
+                    tastoProcedi.innerText = "Salva";
+                    tastoProcedi.setAttribute("form","formModificaDati");
+
                 } else { // altrimenti se la password è errata...
                     campoInputPassword.setCustomValidity('Password non corretta'); // imposto custom validity
                     campoInputPassword.reportValidity(); // mostro messaggio di errore custom
                 }
             }
         )
+
     });
 
     document.getElementById('password').addEventListener('input', function() {
         this.setCustomValidity('');
     });
+
+
+    // data attuale
+    const oggi = new Date();
+
+    // data massima selezionabile per data di nascita (data attuale - 18 anni)
+    const maxDate = new Date(
+        oggi.getFullYear() - 18,
+        oggi.getMonth(),
+        oggi.getDate()
+    );
+
+    // formatto la data e la setto come max dell'input
+    const dataFormattata = maxDate.toISOString().split('T')[0];
+    document.getElementById("nascita").max = dataFormattata;
+
 
     // Inizializzazione della modale
     const modalElement = new bootstrap.Modal(document.getElementById('modificaDati'));
@@ -445,13 +473,15 @@
         document.getElementById("modifica-dati").style.display = "none";
         // azzero value di campo di conferma password
         document.getElementById("password").value = "";
+        // Cambia il tipo del campo password
+        passwordField.type = "password";
+        // Cambia l'icona
+        iconToggle.className = "bi bi-eye-slash";
     });
 
 
     // Pulsante vissualizza/nascondi password
     document.getElementById("toggle-password").addEventListener("click", function() {
-        const passwordField = document.getElementById("password");
-        const iconToggle = document.getElementById("icona-toggle");
 
         // Cambia il tipo del campo password
         passwordField.type = passwordField.type == "password" ? "text" : "password";

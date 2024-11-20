@@ -1,3 +1,5 @@
+// script usato in check.html per modificare il prezzo totale in base al numero dei partecipanti
+
 $(document).ready(function(){
     const idItinerario = document.getElementById("idItinerario").value; // registro l'id dell'itinerario, che nel form è salvato in un type=hidden
     const totale = document.getElementById("totale"); // salvo il percorso del campo del prezzo totale

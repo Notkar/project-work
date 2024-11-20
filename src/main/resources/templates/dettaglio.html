@@ -100,9 +100,7 @@
                         <p>
                             <strong>Difficoltà: </strong>
                             <span th:text="${#strings.capitalize(itinerario.difficolta)}"></span>
-                            <span class="star-rating" th:attr="data-difficolta=${itinerario.difficolta}">
-                        ★★★★★ <!-- Stelle placeholder, aggiornate dal JavaScript -->
-                    </span>
+                            <span class="star-rating" th:attr="data-difficolta=${itinerario.difficolta}">☆☆☆ <!-- Stelle placeholder, aggiornate dal JavaScript --></span>
                         </p>
                         <p><strong>Lunghezza del percorso: </strong><span
                                 th:text="${itinerario.distanza + ' metri'}"></span></p>
@@ -183,40 +181,20 @@
     </div>
 </footer>
 
+<!-- Script stelle difficoltà -->
+<script th:src="@{stampaStelleDifficoltà.js}"></script>
+<!-- Blocco tasto prenotazione (per quando non ci sono date valide disponibili) -->
+<script th:if="${prenotazioneBloccata}">document.getElementById("tastoPrenotaItinerario").classList.add("disabled");</script>
+
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<!-- JS di jQuery (se non è già incluso) -->
+<!-- JS di jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- JS di Fancybox -->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0.30/dist/fancybox.umd.js"></script>
-
-<!-- Script Stelle -->
-<script>
-    // Seleziona l'elemento star-rating e ottieni la difficoltà dal data-attribute
-    const starRatingElement = document.querySelector('.star-rating');
-    const difficolta = starRatingElement.getAttribute('data-difficolta')?.toLowerCase().trim();
-
-    // Assegna le stelle in base alla difficoltà
-    let stars = '';
-    if (difficolta === 'facile') {
-        stars = '★☆☆'; // 1 stella piena, 2 vuote
-    } else if (difficolta === 'media') {
-        stars = '★★☆'; // 2 stelle piene, 1 vuota
-    } else if (difficolta === 'difficile') {
-        stars = '★★★'; // 3 stelle piene, 0 vuote
-    } else {
-        stars = 'N/A'; // Valore predefinito nel caso la difficoltà non corrisponda
-    }
-
-    // Aggiorna il contenuto dell'elemento star-rating con il numero di stelle corretto
-    starRatingElement.textContent = stars;
-</script>
-<script th:if="${prenotazioneBloccata}">
-    document.getElementById("tastoPrenotaItinerario").classList.add("disabled");
-</script>
 </body>
 </html>

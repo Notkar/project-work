@@ -62,9 +62,9 @@ public class AreaRiservataController {
 
             // messaggi di successo o errore per modifica dati utente
             if(successoModifica != null && successoModifica.equals("true")){
-                model.addAttribute("messaggio", "Modifica dati utente effettuata con successo");
+                model.addAttribute("messaggio", "Modifica dati utente effettuata con successo!");
             } else if (successoModifica != null && successoModifica.equals("false")){
-                model.addAttribute("messaggio", "Modifica dati utente fallita: username o email già in uso");
+                model.addAttribute("messaggio", "Modifica dati utente fallita: username o email già in uso.");
             }
 
             // se c'è una candidatura associata all'utente registro nel model una stringa per far comparire lo script per disabilitare il tasto di candidatura

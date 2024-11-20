@@ -10,13 +10,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <style>
-        .user-info {
+        .info-utente {
             background-color: #f8f9fa;
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .guide-section, .bookings-section {
+        .sezione-guida, .sezione-prenotazioni {
             display: none;
             margin-top: 20px;
             background-color: #fff3cd;
@@ -99,26 +99,24 @@
             transform: translate(2px ,2px);
         }
 
-        .booking-card {
+        .card-prenotazioni {
             background-color: white;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        .booking-card h5 {
+        .card-prenotazioni h5 {
             color: #2c3e50;
             margin-bottom: 10px;
         }
-        .booking-info {
+        .info-prenotazioni {
             justify-content: space-between;
             gap: 10px;
         }
-        .booking-detail {
+        .dettagli-prenotazioni {
             min-width: 200px;
         }
-
-
     </style>
 </head>
 <body>
@@ -163,15 +161,15 @@
 
     <!-- Sezione informazioni utente -->
     <section class="container py-5">
-        <div class="user-info" style="position: relative;">
+        <div class="info-utente" style="position: relative;">
             <h2>
                 Informazioni Utente
-                <a type="button" data-bs-toggle="modal" data-bs-target="#modificaDati">
+                <a type="button" data-bs-toggle="modal" data-bs-target="#modificaDati"> <!-- PULSANTE APERTURA MODALE -->
                     <i class="bi bi-pencil-square"></i>
                 </a>
             </h2>
 
-            <!-- MODALE -->
+            <!-- MODALE x MODIFICA DATI UTENTE -->
             <div class="modal fade" id="modificaDati" tabindex="-1" data-bs-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -183,17 +181,17 @@
                             <div class="controllo-password" id="controllo-password">
                                 <div class="input-group mb-3">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" id="password" name="password"
+                                        <input type="password" class="form-control" id="richiesta-password"
                                                placeholder="Inserisci la password" required>
-                                        <label for="password">Password</label>
+                                        <label for="richiesta-password">Password</label>
                                     </div>
                                     <button class="btn password-toggle" type="button" id="toggle-password">
-                                        <i id="icona-toggle" class="bi bi-eye-slash"></i>
+                                        <i id="icona-toggle-password" class="bi bi-eye-slash"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="modifica-dati" id="modifica-dati" style="display: none;">
-                                <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaDati">
+                                <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaRegistrazione">
                                     <input type="hidden" th:field="*{id}">
                                     <div class="mb-3">
                                         <label for="nome" class="form-label">Nome: </label>
@@ -216,8 +214,8 @@
                                         <input type="date" class="form-control" id="nascita" name="dataNascita" th:value="${dataNascitaFormattata}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="register-password" class="form-label">Password: </label>
-                                        <input type="text" class="form-control" id="register-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
+                                        <label for="registrazione-password" class="form-label">Password: </label>
+                                        <input type="text" class="form-control" id="registrazione-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
                                     </div>
                                 </form>
                             </div>
@@ -234,6 +232,7 @@
                 </div>
             </div>
 
+            <!-- DATI UTENTE -->
             <p><strong>Nome:</strong> <span th:text="${utente.nome}"></span></p>
             <p><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></p>
             <p><strong>Data di Nascita:</strong> <span
@@ -241,6 +240,7 @@
             <p><strong>Email:</strong> <span th:text="${utente.email}"></span></p>
             <p><strong>Username:</strong> <span th:text="${utente.username}"></span></p>
 
+            <!-- TASTI CANDIDATURA & PRENOTAZIONI -->
             <div class="button-container">
                 <button class="btn" id="toggle-guide-btn"
                         th:text="${candidaturaBloccata ? 'Candidatura già inviata' : 'Iscriviti come guida'}">Iscriviti
@@ -249,10 +249,11 @@
                 <button class="btn btn-info" id="toggle-bookings-btn">Le mie prenotazioni</button>
             </div>
 
+            <!-- STAMPA MESSAGGI -->
             <p th:if="${messaggio != null}" th:text="${messaggio}"
                th:style="${messaggio.equals('Candidatura inviata con successo: ti risponderemo al più presto!') || messaggio.equals('Modifica dati utente effettuata con successo') ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
 
-            <!-- Logout Button -->
+            <!-- PULSANTE LOGOUT -->
             <a th:href="@{/areariservata/logout}" class="Btn" style="position: absolute; top: 20px; right: 20px;">
                 <div class="sign">
                     <svg viewBox="0 0 512 512">
@@ -263,47 +264,47 @@
             </a>
         </div>
 
-        <!-- Sezione guida -->
-        <div id="guide-section" class="guide-section">
+        <!-- SEZIONE CANDIDATURA -->
+        <div id="sezione-guida" class="sezione-guida">
             <h3>Iscrizione al Ruolo di Guida</h3>
             <p>Compila il modulo per iscriverti come guida.</p>
             <form action="/areariservata/candidati" method="post" enctype="multipart/form-data"
                   th:object="${candidato}">
                 <div class="mb-3">
-                    <label for="shortDescription" class="form-label">Breve descrizione di sé</label>
-                    <textarea class="form-control" id="shortDescription" name="descrizione" rows="3"
+                    <label for="descrizioneCandidato" class="form-label">Breve descrizione di sé</label>
+                    <textarea class="form-control" id="descrizioneCandidato" name="descrizione" rows="3"
                               placeholder="Scrivi una breve descrizione di te" required th:field="*{descrizione}"
                               maxlength="65535"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Recapito Telefonico</label>
-                    <input type="tel" class="form-control" id="phoneNumber" name="telefono"
+                    <label for="telefonoCandidato" class="form-label">Recapito Telefonico</label>
+                    <input type="tel" class="form-control" id="telefonoCandidato" name="telefono"
                            placeholder="Inserisci il tuo numero di telefono" required th:field="*{telefono}"
                            maxlength="15">
                 </div>
                 <div class="mb-3">
-                    <label for="personalPhoto" class="form-label">Fotografia Personale (massimo 1 MB)</label>
-                    <input type="file" class="form-control" id="personalPhoto" name="foto" accept="image/*" required
+                    <label for="fotoPersonale" class="form-label">Fotografia Personale (massimo 1 MB)</label>
+                    <input type="file" class="form-control" id="fotoPersonale" name="foto" accept="image/*" required
                            th:field="*{foto}">
                 </div>
                 <button type="submit" class="btn">Invia Richiesta</button>
             </form>
         </div>
 
-        <!-- Sezione prenotazioni -->
-        <div id="bookings-section" class="bookings-section">
+        <!-- SEZIONE PRENOTAZIONI -->
+        <div id="sezione-prenotazioni" class="sezione-prenotazioni">
             <h3>Le Mie Prenotazioni</h3>
-            <div class="bookings-container">
-                <div class="booking-card" th:each="prenotazione : ${prenotazioni}">
+            <div class="container-prenotazioni">
+                <div class="card-prenotazioni" th:each="prenotazione : ${prenotazioni}">
                     <h5 th:text="${prenotazione.itinerario.nome}">Nome Itinerario</h5>
-                    <div class="row booking-info">
-                        <div class="booking-detail col-12 col-md-3">
+                    <div class="row info-prenotazioni">
+                        <div class="dettagli-prenotazioni col-12 col-md-3">
                             <p><strong>Nominativo:<br></strong> <span th:text="${prenotazione.nomeCompleto}">Luca Rizzolo</span>
                             </p>
                             <p><strong>Email:<br></strong> <span th:text="${prenotazione.email}"></span></p>
                             <p><strong>Telefono:<br></strong> <span th:text="${prenotazione.telefono}"></span></p>
                         </div>
-                        <div class="booking-detail col-12 col-md-3">
+                        <div class="dettagli-prenotazioni col-12 col-md-3">
                             <p><strong>Data dell'escursione:<br></strong> <span
                                     th:text="${#temporals.format(prenotazione.dataEscursione, 'dd/MM/yyyy')}">01/01/2024</span>
                             </p>
@@ -312,7 +313,7 @@
                             <p><strong>Numero Partecipanti:<br></strong> <span
                                     th:text="${prenotazione.numeroPartecipanti}">2</span></p>
                         </div>
-                        <div class="booking-detail col-12 col-md-3">
+                        <div class="dettagli-prenotazioni col-12 col-md-3">
                             <p><strong>Guida assegnata:<br></strong> <span
                                     th:text="${prenotazione.itinerario.guida.nome} + ' ' + ${prenotazione.itinerario.guida.cognome}">Mario Rossi</span>
                             </p>
@@ -367,50 +368,48 @@
 <!-- Script per mostrare/nascondere la sezione di iscrizione al ruolo di guida -->
 <script>
     // costanti
-    const passwordField = document.getElementById("password");
-    const iconToggle = document.getElementById("icona-toggle");
+    const campoInputConfermaPassword = document.getElementById("richiesta-password");
+    const iconaTogglePassword = document.getElementById("icona-toggle-password");
     const tastoProcedi = document.getElementById("procedi");
 
     // mostra/nascondi sezione guida
     document.getElementById('toggle-guide-btn').addEventListener('click', function() {
-        let guideSection = document.getElementById('guide-section');
-        if (guideSection.style.display === 'none' || guideSection.style.display === '') {
-            guideSection.style.display = 'block';
-            document.getElementById('bookings-section').style.display = 'none';
+        let sezioneGuida = document.getElementById('sezione-guida');
+        if (sezioneGuida.style.display === 'none' || sezioneGuida.style.display === '') {
+            sezioneGuida.style.display = 'block';
+            document.getElementById('sezione-prenotazioni').style.display = 'none';
         } else {
-            guideSection.style.display = 'none';
+            sezioneGuida.style.display = 'none';
         }
     });
 
     // mostra/nascondi sezione prenotazioni
     document.getElementById('toggle-bookings-btn').addEventListener('click', function() {
-        let bookingsSection = document.getElementById('bookings-section');
-        if (bookingsSection.style.display === 'none' || bookingsSection.style.display === '') {
-            bookingsSection.style.display = 'block';
-            document.getElementById('guide-section').style.display = 'none';
+        let sezionePrenotazioni = document.getElementById('sezione-prenotazioni');
+        if (sezionePrenotazioni.style.display === 'none' || sezionePrenotazioni.style.display === '') {
+            sezionePrenotazioni.style.display = 'block';
+            document.getElementById('sezione-guida').style.display = 'none';
         } else {
-            bookingsSection.style.display = 'none';
+            sezionePrenotazioni.style.display = 'none';
         }
     });
 
     // controllo grandezza file
-    document.getElementById("personalPhoto").addEventListener("change", function() {
+    document.getElementById("fotoPersonale").addEventListener("change", function() {
         const file = this.files[0];
         if (file) {
-            const fileSizeInMB = file.size / (1024 * 1024);
-            if (fileSizeInMB > 1) {
+            const grandezzaFileInMB = file.size / (1024 * 1024);
+            if (grandezzaFileInMB > 1) {
                 alert("Il file selezionato supera la dimensione massima di 1 MB. Si prega di scegliere un file più piccolo.");
                 this.value = "";
             }
         }
     });
 
-
     tastoProcedi.addEventListener("click", function() {
-        const campoInputPassword = document.getElementById("password"); // acquisisco il campo della password
-        campoInputPassword.setCustomValidity(''); // resetto la custom validity
+        campoInputConfermaPassword.setCustomValidity(''); // resetto la custom validity
 
-        const inputPassword = campoInputPassword.value; // acquisisco l'input dell'utente dal campo della password
+        const inputPassword = campoInputConfermaPassword.value; // acquisisco l'input dell'utente dal campo della password
 
         $.post (
             // indirizzo di /areariservata a cui inviare la richiesta
@@ -426,41 +425,25 @@
                     // Mostra il div modifica-dati
                     document.getElementById("modifica-dati").style.display = "block";
                     // trasforma campo password in input type="password"
-                    document.getElementById("register-password").type = "password";
+                    document.getElementById("registrazione-password").type = "password";
 
                     // modifico il tasto procedi
                     tastoProcedi.type = "submit";
                     tastoProcedi.innerText = "Salva";
-                    tastoProcedi.setAttribute("form","formModificaDati");
+                    tastoProcedi.setAttribute("form","formModificaRegistrazione");
 
                 } else { // altrimenti se la password è errata...
-                    campoInputPassword.setCustomValidity('Password non corretta'); // imposto custom validity
-                    campoInputPassword.reportValidity(); // mostro messaggio di errore custom
+                    campoInputConfermaPassword.setCustomValidity('Password non corretta'); // imposto custom validity
+                    campoInputConfermaPassword.reportValidity(); // mostro messaggio di errore custom
                 }
             }
         )
 
     });
 
-    document.getElementById('password').addEventListener('input', function() {
+    campoInputConfermaPassword.addEventListener('input', function() {
         this.setCustomValidity('');
     });
-
-
-    // data attuale
-    const oggi = new Date();
-
-    // data massima selezionabile per data di nascita (data attuale - 18 anni)
-    const maxDate = new Date(
-        oggi.getFullYear() - 18,
-        oggi.getMonth(),
-        oggi.getDate()
-    );
-
-    // formatto la data e la setto come max dell'input
-    const dataFormattata = maxDate.toISOString().split('T')[0];
-    document.getElementById("nascita").max = dataFormattata;
-
 
     // Inizializzazione della modale
     const modalElement = new bootstrap.Modal(document.getElementById('modificaDati'));
@@ -472,27 +455,26 @@
         document.getElementById("controllo-password").style.display = "block";
         document.getElementById("modifica-dati").style.display = "none";
         // azzero value di campo di conferma password
-        document.getElementById("password").value = "";
+        campoInputConfermaPassword.value = "";
         // Cambia il tipo del campo password
-        passwordField.type = "password";
+        campoInputConfermaPassword.type = "password";
         // Cambia l'icona
-        iconToggle.className = "bi bi-eye-slash";
+        iconaTogglePassword.className = "bi bi-eye-slash";
     });
-
 
     // Pulsante vissualizza/nascondi password
     document.getElementById("toggle-password").addEventListener("click", function() {
 
         // Cambia il tipo del campo password
-        passwordField.type = passwordField.type == "password" ? "text" : "password";
+        campoInputConfermaPassword.type = campoInputConfermaPassword.type == "password" ? "text" : "password";
 
         // Cambia l'icona
-        iconToggle.className = iconToggle.className == "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
+        iconaTogglePassword.className = iconaTogglePassword.className == "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
     });
-
 </script>
-<script th:if="${candidaturaBloccata}">
-    document.getElementById("toggle-guide-btn").disabled = true;
-</script>
+<!-- Blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
+<script th:if="${candidaturaBloccata}">document.getElementById("toggle-guide-btn").disabled = true;</script>
+<!-- script per controlli su form di modifica dati utente -->
+<script th:src="@{validazioneFormDatiUtente.js}"></script>
 </body>
 </html>

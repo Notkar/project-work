@@ -65,7 +65,7 @@
             <p th:if="${messaggio != null}" th:text="${messaggio}" th:style="${messaggio == 'Registrazione effettuata' ? 'color:white; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;' : 'color:orangered; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;'}"></p>
             <button type="submit" class="btn btn-primary w-100">Accedi</button>
         </form>
-        <p class="text-center mt-3">Non hai un account? <a href="#" onclick="showRegisterForm()">Registrati</a></p>
+        <p class="text-center mt-3">Non hai un account? <a href="#" onclick="mostraFormRegistrazione()">Registrati</a></p>
     </div>
 
     <!-- Form di Registrazione -->
@@ -76,7 +76,7 @@
             </a>
             <h2 class="text-center">Registrati</h2>
         </div>
-        <form method="post" action="/loginregistrazione/registrazione" th:object="${utente}" id="formRegistrazione">
+        <form method="post" action="/loginregistrazione/registrazione" th:object="${utente}" id="formModificaRegistrazione">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome: </label>
                 <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Inserisci Nome" maxlength="50" required>
@@ -98,13 +98,13 @@
                 <input type="date" class="form-control" id="nascita" th:field="*{dataNascita}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
             </div>
             <div class="mb-3">
-                <label for="register-password" class="form-label">Password: </label>
-                <input type="password" class="form-control" id="register-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
+                <label for="registrazione-password" class="form-label">Password: </label>
+                <input type="password" class="form-control" id="registrazione-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
             </div>
             <p th:if="${messaggioDue != null}" th:text="${messaggioDue}" style="color:orangered; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;"></p>
             <button type="submit" class="btn btn-success w-100">Registrati</button>
         </form>
-        <p class="text-center mt-3">Hai già un account? <a href="#" onclick="showLoginForm()">Accedi</a></p>
+        <p class="text-center mt-3">Hai già un account? <a href="#" onclick="mostraFormLogin()">Accedi</a></p>
     </div>
 </div>
 
@@ -113,91 +113,26 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<!-- Script JavaScript per il Login e Registrazione -->
+<!-- script per mostrare/nascondere i form di login e registrazione -->
 <script>
     // Mostra il form di registrazione
-    function showRegisterForm() {
+    function mostraFormRegistrazione() {
         document.getElementById('login-form').classList.add('d-none');
         document.getElementById('register-form').classList.remove('d-none');
     }
 
     // Mostra il form di login
-    function showLoginForm() {
+    function mostraFormLogin() {
         document.getElementById('register-form').classList.add('d-none');
         document.getElementById('login-form').classList.remove('d-none');
     }
-
-
-    // FUNZIONI DI CONTROLLO DEL FORM DI REGISTRAZIONE
-
-    // data attuale
-    const oggi = new Date();
-
-    // data massima selezionabile per data di nascita (data attuale - 18 anni)
-    const maxDate = new Date(
-        oggi.getFullYear() - 18,
-        oggi.getMonth(),
-        oggi.getDate()
-    );
-
-    // formatto la data e la setto come max dell'input
-    const dataFormattata = maxDate.toISOString().split('T')[0];
-    document.getElementById("nascita").max = dataFormattata;
-
-    // evento di controllo
-
-    document.getElementById("formRegistrazione").addEventListener("submit", function(event) {
-        console.log("Form submission triggered");
-        const passwordInput = document.getElementById("register-password");
-
-        if (!validatePassword(passwordInput)) {
-            passwordInput.reportValidity();
-            event.preventDefault();
-        }
-    });
-
-    // refresh della validity dell'input password ogni volta che l'utente ci scrive
-    document.getElementById("register-password").addEventListener("input", function(event) {
-        this.setCustomValidity("");
-    });
-
-    // controllo validity input password
-    function validatePassword(passwordInput) {
-        const password = passwordInput.value;
-        console.log("Password being tested:", password);
-
-        const uppercasePattern = /[A-Z]/;
-        const lowercasePattern = /[a-z]/;
-        const numberPattern = /[0-9]/;
-        const symbolPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/;
-
-        let errorMessage = "";
-
-        if (!uppercasePattern.test(password)) {
-            errorMessage += "Deve contenere almeno una lettera maiuscola (A-Z).\n";
-        }
-        if (!lowercasePattern.test(password)) {
-            errorMessage += "Deve contenere almeno una lettera minuscola (a-z).\n";
-        }
-        if (!numberPattern.test(password)) {
-            errorMessage += "Deve contenere almeno un numero (0-9).\n";
-        }
-        if (!symbolPattern.test(password)) {
-            errorMessage += "Deve contenere almeno un simbolo consentito (! @ # $ % ^ & * ( ) _ + - = [ ] { } ; : ' \" \\ | , . < > / ?).\n";
-        }
-
-        if (errorMessage === "") {
-            passwordInput.setCustomValidity("");
-            return true;
-        } else {
-            passwordInput.setCustomValidity(errorMessage);
-            return false;
-        }
-    }
 </script>
+<!-- se la registrazione è andata storta, la pagina si deve ricaricare con il form di registrazione aperto per mostrare un messaggio -->
 <script th:if="${messaggioDue != null}">
     document.getElementById('login-form').classList.add('d-none');
     document.getElementById('register-form').classList.remove('d-none');
 </script>
+<!-- script per controlli su form di registrazione -->
+<script th:src="@{validazioneFormDatiUtente.js}"></script>
 </body>
 </html>

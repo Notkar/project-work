@@ -40,7 +40,7 @@ public class AreaRiservataController {
             // recupero utente da session e lo salvo nel model per stamparne le variabili tramite thymeleaf
             Utente utente = (Utente) session.getAttribute("utente");
             model.addAttribute("utente", utente);
-            // recupero la data di nascita dell'utente e la salvo opportunamente formattata nel model per il form di modifica dati
+            // recupero la data di nascita dell'utente e la salvo opportunamente formattata nel model per il form di modifica dati (ci sono problemi a stamparla in automatico con il binding in un <input type="date">)
             DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String dataNascitaFormattataPerCampo = utente.getDataNascita().format(pattern);
             model.addAttribute("dataNascitaFormattata", dataNascitaFormattataPerCampo);
@@ -63,8 +63,6 @@ public class AreaRiservataController {
             // messaggi di successo o errore per modifica dati utente
             if(successoModifica != null && successoModifica.equals("true")){
                 model.addAttribute("messaggio", "Modifica dati utente effettuata con successo!");
-            } else if (successoModifica != null && successoModifica.equals("false")){
-                model.addAttribute("messaggio", "Modifica dati utente fallita: username o email già in uso.");
             }
 
             // se c'è una candidatura associata all'utente registro nel model una stringa per far comparire lo script per disabilitare il tasto di candidatura
@@ -82,6 +80,7 @@ public class AreaRiservataController {
             return "areariservata";
         }
         else {
+            // quando non c'è un utente in session si viene reindirizzati alla pagina di login/registrazione
             return "redirect:/loginregistrazione";
         }
     }
@@ -107,6 +106,7 @@ public class AreaRiservataController {
         }
     }
 
+    // per la conferma della password, prima di poter modificare i propri dati utente
     @PostMapping("/controlloPassword")
     @ResponseBody
     public boolean controllaPassword(@RequestParam("password") String inputPassword,
@@ -117,41 +117,63 @@ public class AreaRiservataController {
         return inputPassword.equals(utente.getPassword());
     }
 
+    // controlli per evitare che si stia cercando di impostare uno username o una email già in uso quando si modificano i propri dati utente
+    // nel javascript si ha questa sequenza: submit -> blocco submit -> invio richiesta a questo PostMapping tramite jquery per controllo username & email -> se ritorna "ok" procedo con il submit (PostMapping /modificaDati), altrimenti mostro un errore sul form con reportValidity() per il campo colpevole
+    @PostMapping("/checkUsernameEmail")
+    @ResponseBody
+    public String checkUsernameEmail(@RequestParam("username") String username,
+                                     @RequestParam("email") String email,
+                                     HttpSession session) {
+
+        Utente utenteDaSession = (Utente)session.getAttribute("utente"); // recuperiamo l'utente dalla session (è l'utente pre-modifiche)
+
+        boolean usernameIdentico = username.equals(utenteDaSession.getUsername());
+        boolean emailIdentica = email.equals(utenteDaSession.getEmail());
+
+        // abbiamo 3 casi diversi:
+        // 1. quando si modifica solo l'email
+        // 2. quando si modifica solo l'username
+        // 3. quando si modificano entrambi
+
+        if(!(usernameIdentico && emailIdentica) && usernameIdentico) {
+            if(!utenteService.controlloUsernameEmail("", email)){ // riciclo la funzione che controlla username e email al momento della registrazione: basta che imposti "" (stringa vuota) per il parametro che non voglio controllare. sul database verrà lanciata una query con sintassi SELECT * FROM `utenti` WHERE username='' or email ='mario@rossi.it';
+                // caso username non modificato: controllo email fallito
+                return "email"; // il return in caso di controllo fallito comunica quale dei due campi non va bene
+            }
+        } else if(!(usernameIdentico && emailIdentica) && emailIdentica) {
+            if(!utenteService.controlloUsernameEmail(username, "")){
+                // caso email non modificata: controllo username fallito
+                return "username";
+            }
+        } else if(!usernameIdentico && !emailIdentica) { // quando sia email che username sono stati modificati, controlliamo prima uno poi l'altro (dobbiamo controllare entrambi)
+            if(!utenteService.controlloUsernameEmail("", email)){
+                // caso username modificato: controllo email fallito
+                return "email";
+            }
+            if(!utenteService.controlloUsernameEmail(username, "")){
+                // caso email modificata: controllo username fallito
+                return "username";
+            }
+        }
+
+        return "ok"; // return per comunicare che tutti i controlli sono passati con successo
+
+    }
+
     @PostMapping("/modificaDati")
     public String modificaDati(@RequestParam("dataNascita") String dataNascitaString,
                                Model model,
                                @ModelAttribute("utente") Utente utente,
                                HttpSession session) {
-        Utente utenteDaSession = (Utente)session.getAttribute("utente"); // recuperiamo l'utente pre-modifiche dalla session
 
-        boolean usernameIdentico = utente.getUsername().equals(utenteDaSession.getUsername());
-        boolean emailIdentica = utente.getEmail().equals(utenteDaSession.getEmail());
-
-        if(!(usernameIdentico && emailIdentica) && usernameIdentico) {
-            if(!utenteService.controlloUsernameEmail("", utente.getEmail())){
-                System.out.println("username uguale: controllo email fallito");
-                return "redirect:/areariservata?successoModifica=false";
-            }
-        } else if(!(usernameIdentico && emailIdentica) && emailIdentica) {
-            if(!utenteService.controlloUsernameEmail(utente.getUsername(), "")){
-                System.out.println("email uguale: controllo username fallito");
-                return "redirect:/areariservata?successoModifica=false";
-            }
-        } else if(!usernameIdentico && !emailIdentica) {
-            if(!utenteService.controlloUsernameEmail(utente.getUsername(), utente.getEmail())){
-                System.out.println("username & email uguali: controllo username o email fallito");
-                return "redirect:/areariservata?successoModifica=false";
-            }
-        }
-
-        System.out.println("controlli passati");
-
+        // uso il metodo setter per assegnare manualmente l'ultima variabile che non è stata ri-assegnata all'oggetto utente recuperato dal model
+        // questo perché l'<input type="date"> creava problemi con l'autoriempimento del form grazie al binding, quindi è stato escluso dal binding
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate dataNascita = LocalDate.parse(dataNascitaString, formatter);
         utente.setDataNascita(dataNascita);
 
-        utenteService.salvaUtente(utente); // se è tutto ok salva l'utente sul database
-        session.setAttribute("utente", utente); // sovrascriviamo l'utente in session con l'utente appena modificato
+        utenteService.salvaUtente(utente); // salvo l'utente sul database -> dato che l'utente ha lo stesso id di un utente già presente sul database, il metodo sovrascrive l'utente invece di inserirne uno nuovo
+        session.setAttribute("utente", utente); // sovrascriviamo anche l'utente in session con l'oggetto utente appena modificato
 
         return "redirect:/areariservata?successoModifica=true";
     }

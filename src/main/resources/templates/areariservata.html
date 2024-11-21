@@ -178,18 +178,24 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="controllo-password" id="controllo-password">
-                                <div class="input-group mb-3">
-                                    <div class="form-floating">
-                                        <input type="password" class="form-control" id="richiesta-password"
-                                               placeholder="Inserisci la password" required>
-                                        <label for="richiesta-password">Password</label>
+
+                            <form id="formConfermaPassword">
+
+                                <div class="controllo-password" id="controllo-password">
+                                    <div class="input-group mb-3">
+                                        <div class="form-floating">
+                                            <input type="password" class="form-control" id="richiesta-password"
+                                                   placeholder="Inserisci la password" required>
+                                            <label for="richiesta-password">Password</label>
+                                        </div>
+                                        <button class="btn password-toggle" type="button" id="toggle-password">
+                                            <i id="icona-toggle-password" class="bi bi-eye-slash"></i>
+                                        </button>
                                     </div>
-                                    <button class="btn password-toggle" type="button" id="toggle-password">
-                                        <i id="icona-toggle-password" class="bi bi-eye-slash"></i>
-                                    </button>
                                 </div>
-                            </div>
+
+                            </form>
+
                             <div class="modifica-dati" id="modifica-dati" style="display: none;">
                                 <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaRegistrazione">
                                     <input type="hidden" th:field="*{id}">
@@ -226,19 +232,21 @@
                                     onmouseover="this.style.backgroundColor='#880000'"
                                     onmouseout="this.style.backgroundColor='#AA0000'">Chiudi
                             </button>
-                            <button type="button" id="procedi" class="btn">Procedi</button>
+                            <button type="reset" id="resetButton" class="btn" form="formModificaRegistrazione" style="display:none; background-color:orange; color: white; transition: background-color 0.3s ease;"
+                                    onmouseover="this.style.backgroundColor='goldenrod'"
+                                    onmouseout="this.style.backgroundColor='orange'">Reset</button>
+                            <button type="submit" id="procedi" class="btn" form="formConfermaPassword">Procedi</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- DATI UTENTE -->
-            <p><strong>Nome:</strong> <span th:text="${utente.nome}"></span></p>
-            <p><strong>Cognome:</strong> <span th:text="${utente.cognome}"></span></p>
-            <p><strong>Data di Nascita:</strong> <span
-                    th:text="${#temporals.format(utente.dataNascita, 'dd/MM/yyyy')}"></span></p>
-            <p><strong>Email:</strong> <span th:text="${utente.email}"></span></p>
-            <p><strong>Username:</strong> <span th:text="${utente.username}"></span></p>
+            <p><strong>Nome: </strong><span th:text="${utente.nome}"></span></p>
+            <p><strong>Cognome: </strong><span th:text="${utente.cognome}"></span></p>
+            <p><strong>Data di Nascita: </strong><span th:text="${#temporals.format(utente.dataNascita, 'dd/MM/yyyy')}"></span></p>
+            <p><strong>Email: </strong><span th:text="${utente.email}"></span></p>
+            <p><strong>Username: </strong><span th:text="${utente.username}"></span></p>
 
             <!-- TASTI CANDIDATURA & PRENOTAZIONI -->
             <div class="button-container">
@@ -251,7 +259,7 @@
 
             <!-- STAMPA MESSAGGI -->
             <p th:if="${messaggio != null}" th:text="${messaggio}"
-               th:style="${messaggio.equals('Candidatura inviata con successo: ti risponderemo al più presto!') || messaggio.equals('Modifica dati utente effettuata con successo') ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
+               th:style="${messaggio.equals('Candidatura inviata con successo: ti risponderemo al più presto!') || messaggio.equals('Modifica dati utente effettuata con successo!') ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
 
             <!-- PULSANTE LOGOUT -->
             <a th:href="@{/areariservata/logout}" class="Btn" style="position: absolute; top: 20px; right: 20px;">
@@ -365,12 +373,15 @@
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<!-- Script per mostrare/nascondere la sezione di iscrizione al ruolo di guida -->
+<!-- script per controlli su form di modifica dati utente -->
+<script th:src="@{validazioneNascitaPasswordUtente.js}"></script>
 <script>
     // costanti
     const campoInputConfermaPassword = document.getElementById("richiesta-password");
     const iconaTogglePassword = document.getElementById("icona-toggle-password");
     const tastoProcedi = document.getElementById("procedi");
+    campoInputModificaUsername = document.getElementById("username");
+    campoInputModificaEmail = document.getElementById("email");
 
     // mostra/nascondi sezione guida
     document.getElementById('toggle-guide-btn').addEventListener('click', function() {
@@ -406,7 +417,8 @@
         }
     });
 
-    tastoProcedi.addEventListener("click", function() {
+    document.getElementById("formConfermaPassword").addEventListener("submit", function() {
+        event.preventDefault(); // blocca il submit
         campoInputConfermaPassword.setCustomValidity(''); // resetto la custom validity
 
         const inputPassword = campoInputConfermaPassword.value; // acquisisco l'input dell'utente dal campo della password
@@ -428,9 +440,11 @@
                     document.getElementById("registrazione-password").type = "password";
 
                     // modifico il tasto procedi
-                    tastoProcedi.type = "submit";
                     tastoProcedi.innerText = "Salva";
                     tastoProcedi.setAttribute("form","formModificaRegistrazione");
+
+                    // mostro il tasto reset
+                    document.getElementById("resetButton").style.display = "block";
 
                 } else { // altrimenti se la password è errata...
                     campoInputConfermaPassword.setCustomValidity('Password non corretta'); // imposto custom validity
@@ -438,10 +452,63 @@
                 }
             }
         )
-
     });
 
     campoInputConfermaPassword.addEventListener('input', function() {
+        this.setCustomValidity('');
+    });
+
+    document.getElementById("formModificaRegistrazione").addEventListener("submit", function() {
+        event.preventDefault(); // blocca il submit
+
+        inputModificaUsername = campoInputModificaUsername.value;
+        inputModificaEmail = campoInputModificaEmail.value;
+
+        let messaggioErrore = "";
+        campoInputModificaEmail.setCustomValidity("");
+        campoInputModificaUsername.setCustomValidity("");
+
+        $.post (
+            // invio username e email inseriti dall'utente al controller
+            "/areariservata/checkUsernameEmail",
+            {
+                username:inputModificaUsername,
+                email:inputModificaEmail
+            },
+            // lato back-end faccio i controlli del caso e ritorno una risposta che indica quale campo non va bene
+            function(risposta) {
+                switch(risposta){
+                    case "email":
+                        messaggioErrore = "Email già in uso."
+                        campoInputModificaEmail.setCustomValidity(messaggioErrore);
+                        campoInputModificaEmail.reportValidity();
+                        break;
+                    case "username":
+                        messaggioErrore = "Nome utente già in uso."
+                        campoInputModificaUsername.setCustomValidity(messaggioErrore);
+                        campoInputModificaUsername.reportValidity();
+                        break;
+                    case "default":
+                        break;
+                }
+
+                if (messaggioErrore === "") { // se il messaggio di errore è sempre una stringa vuota, allora i controlli su username e email sono passati con successo
+                    if (!validaPassword(campoInputPassword)) { // controllo su password; vedi file validazioneNascitaPasswordUtente.js
+                        campoInputPassword.reportValidity();
+                        return;
+                    }
+                    document.getElementById("formModificaRegistrazione").submit(); // superati i controlli posso procedere con il submit
+                } else { // altrimenti non procedo con il submit -> in questo modo vengono mostrati i messaggi custom di errore sul form grazie a reportValidity()
+                    return;
+                }
+            }
+        )
+    });
+
+    campoInputModificaUsername.addEventListener('input', function() {
+        this.setCustomValidity('');
+    });
+    campoInputModificaEmail.addEventListener('input', function() {
         this.setCustomValidity('');
     });
 
@@ -460,6 +527,13 @@
         campoInputConfermaPassword.type = "password";
         // Cambia l'icona
         iconaTogglePassword.className = "bi bi-eye-slash";
+        // Ripristino il tasto procedi
+        tastoProcedi.innerText = "Procedi";
+        tastoProcedi.setAttribute("form","formConfermaPassword");
+        // nascondo il tasto reset
+        document.getElementById("resetButton").style.display = "none";
+        // resetto il form di modifica dati
+        document.getElementById('formModificaRegistrazione').reset();
     });
 
     // Pulsante vissualizza/nascondi password
@@ -474,7 +548,5 @@
 </script>
 <!-- Blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
 <script th:if="${candidaturaBloccata}">document.getElementById("toggle-guide-btn").disabled = true;</script>
-<!-- script per controlli su form di modifica dati utente -->
-<script th:src="@{validazioneFormDatiUtente.js}"></script>
 </body>
 </html>

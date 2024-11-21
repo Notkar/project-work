@@ -63,6 +63,6 @@
     }
 
     // refresh della validity dell'input password per ogni volta che l'utente scrive nel campo
-        campoInputPassword.addEventListener("input", function(event) {
-            this.setCustomValidity("");
-        });
+    campoInputPassword.addEventListener("input", function(event) {
+        this.setCustomValidity("");
+    });

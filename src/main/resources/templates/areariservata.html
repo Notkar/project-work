@@ -388,7 +388,7 @@
                         campoInputModificaUsername.setCustomValidity(messaggioErrore);
                         campoInputModificaUsername.reportValidity();
                         break;
-                    case "default":
+                    default:
                         break;
                 }
 
@@ -397,6 +397,7 @@
                         campoInputPassword.reportValidity();
                         return;
                     }
+
                     document.getElementById("formModificaRegistrazione").submit(); // superati i controlli posso procedere con il submit
 
                 } else { // altrimenti non procedo con il submit -> in questo modo vengono mostrati i messaggi custom di errore sul form grazie a reportValidity()
@@ -434,6 +435,9 @@
         document.getElementById("resetButton").style.display = "none";
         // resetto il form di modifica dati
         document.getElementById('formModificaRegistrazione').reset();
+        // resetto custom validity
+        campoInputModificaEmail.setCustomValidity("");
+        campoInputModificaUsername.setCustomValidity("");
     });
 
     // Pulsante vissualizza/nascondi password

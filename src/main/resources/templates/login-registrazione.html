@@ -9,30 +9,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <link th:href="@{CSS/style.css}" rel="stylesheet">
     <style>
-        .form-container {
-           width: 420px;
-           background: trasparent;
-           padding: 20px;
-           border-radius: 10px;
-           padding: 30px 40px;
-           border : 2px solid rgba(255, 255, 255, .2);
-           color: #fff;
-           backdrop-filter: blur(20px);
-           box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-       }
-       .btn-custom {
-            border: 2px solid white;
-            border-radius: 25%;
-            padding: 2px 4px;
-            color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-       }
-
-        .btn-custom:hover {
-            transform: translateY(-0.2rem);
-            box-shadow: 0 0.4rem 0.8rem rgba(44, 85, 48, 0.1);
-        }
-
        body {
            background-image: url("immagine-login.jpg");
            background-size: cover;
@@ -42,11 +18,10 @@
 <body>
 
 <div class="container mt-5">
-
     <!-- Form di Login -->
     <div class="form-container mx-auto" id="login-form">
         <div>
-            <a th:href="@{/loginregistrazione/indietro}" class="btn-custom">
+            <a th:href="@{/loginregistrazione/indietro}" class="bottone-indietro-login">
                 <i class="bi bi-arrow-left"></i> <!-- Icona freccia -->
             </a>
         </div>
@@ -71,7 +46,7 @@
     <!-- Form di Registrazione -->
     <div class="form-container mx-auto d-none" id="register-form">
         <div>
-            <a th:href="@{/loginregistrazione/indietro}" class="btn-custom">
+            <a th:href="@{/loginregistrazione/indietro}" class="bottone-indietro-login">
                 <i class="bi bi-arrow-left"></i> <!-- Icona freccia -->
             </a>
             <h2 class="text-center">Registrati</h2>

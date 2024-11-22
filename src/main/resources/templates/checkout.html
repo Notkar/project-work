@@ -11,22 +11,12 @@
     <link th:href="@{CSS/style.css}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <style>
-        .btn-custom {
-             background-color: rgb(255, 65, 65);
-             border: none;
-             color: white;
-            }
-        .btn-custom:hover {
-             background-color: rgb(255, 65, 65);
-            }
-    </style>
 </head>
 <body>
 <div class="container mb-5 mt-3">
     <div class="d-flex justify-content-between align-items-center ">
         <!-- Bottone Indietro -->
-        <a th:href="@{/checkout/indietro(id=${itinerario.id})}" class="btn btn-custom mb-2">
+        <a th:href="@{/checkout/indietro(id=${itinerario.id})}" class="bottone-indietro-checkout btn mb-2">
             <i class="bi bi-arrow-left"></i> <!-- Icona freccia -->
         </a>
 
@@ -109,20 +99,23 @@
     <!-- Sezione Riepilogo Ordine -->
     <div class="card mb-4">
         <div class="card-header">
-            <h4>Riepilogo Ordine</h4>
+            <h4 class="mb-0">Riepilogo Ordine</h4>
         </div>
         <div class="card-body">
-            <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="list-group">
+                <div class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <input type="hidden" id="idItinerario" th:value="${itinerario.id}" name="idItinerario">
-                    <span class="align-middle"><strong>Itinerario: </strong><span class="align-middle" th:text="${itinerario.nome}"></span></span>
-                    <div class="d-flex align-items-center">
-                        <label for="totale" class="form-label me-2 mb-0 align-middle"><strong>Totale:</strong></label>
-                        <input type="text" class="form-control text-center" id="totale" required readonly value="€0.00"
-                               style="width: 100px; text-align: right; color:black;" form="checkoutForm" name="totale">
+                    <div>
+                        <strong>Itinerario: </strong>
+                        <span th:text="${itinerario.nome}"></span>
                     </div>
-                </li>
-            </ul>
+                    <div class="d-flex align-items-center">
+                        <label for="totale" class="me-2">Totale:</label>
+                        <input type="text" class="form-control text-end" id="totale" name="totale"
+                               form="checkoutForm" value="€0.00" readonly required style="width: 80px;">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

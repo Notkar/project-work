@@ -56,15 +56,15 @@
     </div>
 
     <section class="container py-5">
-        <div class="row gy-4"> <!-- Aggiunta della classe gy-4 per margini verticali -->
-            <div class="col-md-6" th:each="guida : ${listaGuide}">
-                <div class="mb-4">
-                    <div class="carta-guida card">
-                        <img th:src="@{${guida.foto == null ? 'markerImage.png' : guida.foto}}" class="card-img-left"
-                             alt="Guida 1">
+        <div class="row gy-4">
+            <div class="col-lg-6" th:each="guida : ${listaGuide}">
+                <div class="h-100">
+                    <div class="carta-guida card h-100">
+                        <img th:src="@{${guida.foto == null ? 'markerImage.png' : guida.foto}}"
+                             class="card-img-left object-fit-cover" alt="Guida">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${guida.nome + ' ' + guida.cognome}">Guida 1</h5>
-                            <p class="card-text" th:text="${guida.descrizione}">Descrizione card guida.</p>
+                            <h5 class="card-title" th:text="${guida.nome + ' ' + guida.cognome}">Guida</h5>
+                            <p class="card-text" th:text="${guida.descrizione}">Descrizione</p>
                         </div>
                     </div>
                 </div>

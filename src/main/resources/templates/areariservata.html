@@ -217,10 +217,10 @@
                                     th:text="${prenotazione.numeroPartecipanti}">2</span></p>
                         </div>
                         <div class="dettagli-prenotazioni col-12 col-md-3">
-                            <p><strong>Guida assegnata:<br></strong> <span
+                            <p><strong>Guida assegnata:<br></strong><span
                                     th:text="${prenotazione.itinerario.guida.nome} + ' ' + ${prenotazione.itinerario.guida.cognome}">Mario Rossi</span>
                             </p>
-                            <p><strong>Data di prenotazione:<br></strong> <span
+                            <p><strong>Data di prenotazione:<br></strong><span
                                     th:text="${#temporals.format(prenotazione.dataPrenotazione, 'dd/MM/yyyy HH:mm')}"></span>
                             </p>
                             <p><strong>Prezzo Totale:<br></strong> <span

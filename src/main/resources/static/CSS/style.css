@@ -7,7 +7,7 @@
     -moss: #4A593D;
 */
 
-/* ----------TUTTE LE PAGINE---------- */
+/* ---------- TUTTE LE PAGINE ---------- */
 html {
     font-size: 16px;
 }
@@ -26,18 +26,22 @@ p {
 
 h6 {
     font-size: 1.2rem;
+    color: #313131;
 }
 
 h5 {
     font-size: 1.44rem;
+    color: #313131;
 }
 
 h4{
     font-size: 1.728;
+    color: #313131;
 }
 
 h3 {
     font-size: 2.074rem;
+    color: #313131;
 }
 
 .page-wrapper {
@@ -121,15 +125,21 @@ footer ul li {
     margin-left: 1.5vh;
 }
 
+.social-icons a:hover {
+    transform: translateY(-0.3vh);
+    color: white;
+    text-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.3);
+}
+
 /* VARIE */
-.btn {
+.bottone {
     background-color: #2C5530;
     color: white;
     border: none;
     transition: all 0.3s ease;
 }
 
-.btn:hover {
+.bottone:hover {
     background-color: #1C3D20;
     color: white;
     transform: translateY(-0.2vh);
@@ -149,9 +159,53 @@ footer ul li {
     color: white;
 }
 
+/* Forms */
+.form-control {
+    border-color: #D3CBBF;
+    color: #313131;
+}
+
+.form-control:focus {
+    border-color: #87976D;
+    box-shadow: 0 0 0 0.25vh rgba(135, 151, 109, 0.25);
+}
+
+textarea.form-control {
+    background-color: white;
+}
+
+.select:focus {
+    border-color: #2C5530;
+    box-shadow: 0 0 0 0.25vh rgba(44, 85, 48, 0.25);
+    outline: 0;
+}
+
+/* Personalizzazione del pulsante "Choose file" */
+input[type="file"]::file-selector-button {
+    color: white;
+    background-color: #2C5530;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #2C5530;
+}
+
+.password-toggle {
+    background-color: white;
+    color: black;
+    border-right: 1px solid #D3CBBF;
+    border-bottom: 1px solid #D3CBBF;
+    border-top: 1px solid #D3CBBF;
+}
+
+.btn:disabled {
+    background-color: #1C3D20;
+    color: white;
+}
 
 
-/* ----------INDEX---------- */
+
+/* ---------- INDEX ---------- */
 
 .link-index {
     transition: transform 0.5s ease, text-shadow 0.5s ease;
@@ -178,62 +232,12 @@ footer ul li {
 
 
 
-/* ----------AREARISERVATA---------- */
-
-/* INFORMAZIONI UTENTE */
-.user-info {
-    background-color: white;
-    border: 0.1vh solid #D3CBBF;
-}
+/* ---------- ITINERARI ---------- */
 
 .menu-filtri {
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* SEZIONE GUIDE */
-.guide-section {
-    background-color: #F5F1E9;
-    border: 0.1vh solid #87976D;
-    box-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.05);
-}
-
-/* Forms */
-.form-control {
-    border-color: #D3CBBF;
-    color: #313131;
-}
-
-.form-control:focus {
-    border-color: #87976D;
-    box-shadow: 0 0 0 0.25vh rgba(135, 151, 109, 0.25);
-}
-
-textarea.form-control {
-    background-color: white;
-}
-
-.social-icons a:hover {
-    transform: translateY(-0.3vh);
-    color: white;
-    text-shadow: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.3);
-}
-
-/* Personalizzazione del pulsante "Choose file" */
-input[type="file"]::file-selector-button {
-    color: white;
-    background-color: #2C5530;
-}
-
-input[type="file"]::file-selector-button:hover {
-    background-color: #2C5530;
-}
-
-.select:focus {
-    border-color: #2C5530;
-    box-shadow: 0 0 0 0.25vh rgba(44, 85, 48, 0.25);
-    outline: 0;
 }
 
 @media (min-width: 767.98px) {
@@ -242,16 +246,174 @@ input[type="file"]::file-selector-button:hover {
     }
 }
 
-.btn:disabled {
-    background-color: #1C3D20;
-    color: white;
+
+
+/* ---------- AREARISERVATA ---------- */
+
+.info-utente {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.password-toggle {
+.sezione-guida, .sezione-prenotazioni {
+    display: none;
+    margin-top: 20px;
+    background-color: #fff3cd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffeeba;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card-prenotazioni {
     background-color: white;
-    color: black;
-    border-right: 1px solid #D3CBBF;
-    border-bottom: 1px solid #D3CBBF;
-    border-top: 1px solid #D3CBBF;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-prenotazioni h5 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.info-prenotazioni {
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.dettagli-prenotazioni {
+    min-width: 200px;
+}
+
+.modifica-dati {
+    display: none;
+}
+
+.bottone-chiusura-modal {
+    background-color: rgb(255, 65, 65);
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.bottone-chiusura-modal:hover {
+    background-color:#AA0000;
+    color: white;
+    transform: translateY(-0.2vh);
+    box-shadow: 0 0.4vh 0.8vh rgba(44, 85, 48, 0.1);
+}
+
+#resetButton {
+    display:none;
+    background-color:orange;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+#resetButton:hover {
+    background-color: #CC7722;
+    transform: translateY(-0.2vh);
+    box-shadow: 0 0.4vh 0.8vh rgba(44, 85, 48, 0.1);
+}
+
+.bottone-logout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(255, 65, 65);
+    text-decoration: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.sign {
+    width: 100%;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign svg {
+    width: 17px;
+}
+
+.sign svg path {
+    fill: white;
+}
+
+.testo-tasto-logout {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition-duration: .3s;
+}
+
+.bottone-logout:hover {
+    width: 125px;
+    border-radius: 40px;
+    transition-duration: .3s;
+}
+
+.bottone-logout:hover .sign {
+    width: 30%;
+    transition-duration: .3s;
+    padding-left: 20px;
+}
+
+.bottone-logout:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 10px;
+}
+
+.bottone-logout:active {
+    transform: translate(2px ,2px);
+}
+
+
+
+/* ---------- GUIDE ---------- */
+
+.carta-guida img {
+    width: 150px;
+    height: 225px;
+    object-fit: cover;
+    border-radius: 2% 0 0 2%;
+}
+
+.carta-guida {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carta-guida:hover {
+    transform: scale(1.05); /* Ingrandisce leggermente la card */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Aggiunge un'ombra */
 }
 

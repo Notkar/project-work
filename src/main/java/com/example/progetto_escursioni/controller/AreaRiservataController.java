@@ -55,14 +55,14 @@ public class AreaRiservataController {
 
             // messaggi di successo o errore per candidatura
             if(successoCandidatura != null && successoCandidatura.equals("true")){
-                model.addAttribute("messaggio", "Candidatura inviata con successo: ti risponderemo al più presto!");
+                model.addAttribute("messaggio", "Candidatura inviata con successo!");
             } else if (successoCandidatura != null && successoCandidatura.equals("false")){
                 model.addAttribute("messaggio", "Non puoi inviare un'altra candidatura!"); // caso che non dovrebbe essere possibile, lasciato per sicurezza
             }
 
             // messaggi di successo o errore per modifica dati utente
             if(successoModifica != null && successoModifica.equals("true")){
-                model.addAttribute("messaggio", "Modifica dati utente effettuata con successo!");
+                model.addAttribute("messaggio", "Modifica dati effettuata!");
             }
 
             // se c'è una candidatura associata all'utente registro nel model una stringa per far comparire lo script per disabilitare il tasto di candidatura

@@ -39,8 +39,8 @@
                         </li>
                     </ul>
 
-                    <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/toareariservata}" class="btn btn-outline"
+                    <div class="text-center my-2">
+                        <a th:href="@{/toareariservata}" class="bottone btn btn-outline"
                            th:text="${utenteLogged == true ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                         <option value="valle d_aosta">Valle d'Aosta</option>
                         <option value="veneto">Veneto</option>
                     </select>
-                    <button class="btn" type="submit">Cerca</button>
+                    <button class="bottone btn" type="submit">Cerca</button>
                 </form>
             </div>
         </div>
@@ -93,9 +93,9 @@
                 ogni dettaglio, progettiamo viaggi che ti faranno sentire parte del territorio, regalandoti momenti
                 autentici e speciali. Affidati a noi per prenotare la tua prossima avventura in Italia!</p>
         </div>
-        <div style="text-align: center;">
+        <div class="text-center">
             <h6 class="link-index d-inline-block text-center fw-bold">
-                <a href="#" style="color: #313131;" th:href="@{/guide}">Scopri le nostre guide</a>
+                <a href="#" th:href="@{/guide}" style="color: #313131">Scopri le nostre guide</a>
             </h6>
         </div>
     </section>
@@ -120,14 +120,14 @@
                            th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">
                             Descrizione breve...
                         </p>
-                        <a th:href="@{/dettaglio(id=${itinerario.id})}" class="btn mt-auto">Scopri di più</a>
+                        <a th:href="@{/dettaglio(id=${itinerario.id})}" class="bottone btn mt-auto">Scopri di più</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div style="text-align: end;">
+        <div class="text-end">
             <h5 class="link-index d-inline-block text-end mt-4">
-                <a href="#" style="color: #313131;" th:href="@{/itinerari}">
+                <a href="#" th:href="@{/itinerari}" style="color: #313131">
                     Vai agli itinerari <i class="bi bi-arrow-right"></i>
                 </a>
             </h5>

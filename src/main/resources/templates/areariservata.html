@@ -9,125 +9,15 @@
     <link th:href="@{CSS/style.css}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <style>
-        .info-utente {
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .sezione-guida, .sezione-prenotazioni {
-            display: none;
-            margin-top: 20px;
-            background-color: #fff3cd;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #ffeeba;
-        }
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        /* Logout button styles */
-        .Btn {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 45px;
-            height: 45px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition-duration: .3s;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-            background-color: rgb(255, 65, 65);
-            text-decoration: none;
-        }
-
-        /* plus sign */
-        .sign {
-            width: 100%;
-            transition-duration: .3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sign svg {
-            width: 17px;
-        }
-
-        .sign svg path {
-            fill: white;
-        }
-
-        /* text */
-        .text {
-            position: absolute;
-            right: 0%;
-            width: 0%;
-            opacity: 0;
-            color: white;
-            font-size: 1.2em;
-            font-weight: 600;
-            transition-duration: .3s;
-        }
-        /* hover effect on button width */
-        .Btn:hover {
-            width: 125px;
-            border-radius: 40px;
-            transition-duration: .3s;
-        }
-
-        .Btn:hover .sign {
-            width: 30%;
-            transition-duration: .3s;
-            padding-left: 20px;
-        }
-        /* hover effect button's text */
-        .Btn:hover .text {
-            opacity: 1;
-            width: 70%;
-            transition-duration: .3s;
-            padding-right: 10px;
-        }
-        /* button click effect*/
-        .Btn:active {
-            transform: translate(2px ,2px);
-        }
-
-        .card-prenotazioni {
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .card-prenotazioni h5 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        .info-prenotazioni {
-            justify-content: space-between;
-            gap: 10px;
-        }
-        .dettagli-prenotazioni {
-            min-width: 200px;
-        }
-    </style>
 </head>
 <body>
 <div class="page-wrapper">
     <!-- Header con logo e menu -->
     <header class="container-fluid">
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid px-0">
-                <div class="d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
-                    <img src="logo_no_sfondo_ritaglio.png" alt="logo"
-                         style="max-height: 80px; width: auto;">
+            <div class="container-fluid">
+                <div class="div-logo d-flex justify-content-center align-items-center">
+                    <img class="logo" src="logo_no_sfondo_ritaglio.png" alt="logo">
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -150,9 +40,9 @@
                         </li>
                     </ul>
 
-                    <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/areariservata}" class="btn btn-outline"
-                           th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                    <div class="text-center my-2">
+                        <a th:href="@{/toareariservata}" class="bottone btn btn-outline"
+                           th:text="${utenteLogged == true ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
             </div>
@@ -161,7 +51,7 @@
 
     <!-- Sezione informazioni utente -->
     <section class="container py-5">
-        <div class="info-utente" style="position: relative;">
+        <div class="info-utente">
             <h2>
                 Informazioni Utente
                 <a type="button" data-bs-toggle="modal" data-bs-target="#modificaDati"> <!-- PULSANTE APERTURA MODALE -->
@@ -174,7 +64,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5">Modifica dati</h1>
+                            <h5 class="modal-title">Modifica dati</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
@@ -192,7 +82,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <div class="modifica-dati" id="modifica-dati" style="display: none;">
+                            <div class="modifica-dati" id="modifica-dati">
                                 <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaRegistrazione">
                                     <input type="hidden" th:field="*{id}">
                                     <div class="mb-3">
@@ -223,19 +113,32 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn" data-bs-dismiss="modal"
-                                    style="background-color: #AA0000; color: white; transition: background-color 0.3s ease;"
-                                    onmouseover="this.style.backgroundColor='#880000'"
-                                    onmouseout="this.style.backgroundColor='#AA0000'">Chiudi
+                            <button type="button" class="bottone-chiusura-modal btn" data-bs-dismiss="modal">
+                                Chiudi
                             </button>
-                            <button type="reset" id="resetButton" class="btn" form="formModificaRegistrazione" style="display:none; background-color:orange; color: white; transition: background-color 0.3s ease;"
-                                    onmouseover="this.style.backgroundColor='goldenrod'"
-                                    onmouseout="this.style.backgroundColor='orange'">Reset</button>
-                            <button type="submit" id="procedi" class="btn" form="formConfermaPassword">Procedi</button>
+                            <button type="reset" id="resetButton" class="btn" form="formModificaRegistrazione" >Reset</button>
+                            <button type="submit" id="procedi" class="bottone btn" form="formConfermaPassword">Procedi</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- MODALE CON MESSAGGIO DI SUCCESSO -->
+            <div class="modal fade" id="successoModifica" tabindex="-1" data-bs-backdrop="static">
+                <div class="modal-dialog modal-sm ">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <p class="text-center fw-bold" th:text="${messaggio}">Modifica dati effettuata!</p>
+                            <div class="text-center">
+                                <button type="button" class="bottone btn" data-bs-dismiss="modal">
+                                    Ok
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- DATI UTENTE -->
             <p><strong>Nome: </strong><span th:text="${utente.nome}"></span></p>
@@ -246,25 +149,21 @@
 
             <!-- TASTI CANDIDATURA & PRENOTAZIONI -->
             <div class="button-container">
-                <button class="btn" id="toggle-guide-btn"
+                <button class="bottone btn" id="toggle-guide-btn"
                         th:text="${candidaturaBloccata ? 'Candidatura già inviata' : 'Iscriviti come guida'}">Iscriviti
                     come guida
                 </button>
-                <button class="btn btn-info" id="toggle-bookings-btn">Le mie prenotazioni</button>
+                <button class="bottone btn btn-info" id="toggle-bookings-btn">Le mie prenotazioni</button>
             </div>
 
-            <!-- STAMPA MESSAGGI -->
-            <p th:if="${messaggio != null}" th:text="${messaggio}"
-               th:style="${messaggio.equals('Candidatura inviata con successo: ti risponderemo al più presto!') || messaggio.equals('Modifica dati utente effettuata con successo!') ? 'color:#2C5530; font-weight: bold; text-align: center;' : 'color:red; font-weight: bold; text-align: center;'}"></p>
-
             <!-- PULSANTE LOGOUT -->
-            <a th:href="@{/areariservata/logout}" class="Btn" style="position: absolute; top: 20px; right: 20px;">
+            <a th:href="@{/areariservata/logout}" class="bottone-logout">
                 <div class="sign">
                     <svg viewBox="0 0 512 512">
                         <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path>
                     </svg>
                 </div>
-                <div class="text">Logout</div>
+                <div class="testo-tasto-logout text">Logout</div>
             </a>
         </div>
 
@@ -291,7 +190,7 @@
                     <input type="file" class="form-control" id="fotoPersonale" name="foto" accept="image/*" required
                            th:field="*{foto}">
                 </div>
-                <button type="submit" class="btn">Invia Richiesta</button>
+                <button type="submit" class="bottone btn">Invia Richiesta</button>
             </form>
         </div>
 
@@ -378,6 +277,11 @@
     const tastoProcedi = document.getElementById("procedi");
     campoInputModificaUsername = document.getElementById("username");
     campoInputModificaEmail = document.getElementById("email");
+
+    // Inizializzazione delle modali
+    const modalElement = new bootstrap.Modal(document.getElementById('modificaDati'));
+    const modaleMessaggio = new bootstrap.Modal('#successoModifica'); // altro modo per inizializzare modale
+
 
     // mostra/nascondi sezione guida
     document.getElementById('toggle-guide-btn').addEventListener('click', function() {
@@ -494,6 +398,7 @@
                         return;
                     }
                     document.getElementById("formModificaRegistrazione").submit(); // superati i controlli posso procedere con il submit
+
                 } else { // altrimenti non procedo con il submit -> in questo modo vengono mostrati i messaggi custom di errore sul form grazie a reportValidity()
                     return;
                 }
@@ -508,8 +413,7 @@
         this.setCustomValidity('');
     });
 
-    // Inizializzazione della modale
-    const modalElement = new bootstrap.Modal(document.getElementById('modificaDati'));
+
 
     // Quando la modale viene chiusa...
     modalElement._element.addEventListener('hidden.bs.modal', function () {
@@ -544,5 +448,6 @@
 </script>
 <!-- Blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
 <script th:if="${candidaturaBloccata}">document.getElementById("toggle-guide-btn").disabled = true;</script>
+<script th:if="${messaggio != null}">modaleMessaggio.show();</script>
 </body>
 </html>

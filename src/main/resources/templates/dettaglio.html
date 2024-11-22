@@ -53,10 +53,9 @@
     <!-- Navbar -->
     <header class="container-fluid">
         <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid px-0">
-                <div class="d-flex justify-content-center align-items-center" style="width: 100px; height: 100px;">
-                    <img src="logo_no_sfondo_ritaglio.png" alt="logo"
-                         style="max-height: 80px; width: auto;">
+            <div class="container-fluid">
+                <div class="div-logo d-flex justify-content-center align-items-center">
+                    <img class="logo" src="logo_no_sfondo_ritaglio.png" alt="logo">
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -79,8 +78,9 @@
                         </li>
                     </ul>
 
-                    <div class="text-center text-sm-end mt-3 mt-sm-0">
-                        <a th:href="@{/dettaglio/toareariservata(id=${itinerario.id})}" class="btn btn-outline" th:text="${utenteLogged ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
+                    <div class="text-center my-2">
+                        <a th:href="@{/toareariservata}" class="bottone btn btn-outline"
+                           th:text="${utenteLogged == true ? 'Il tuo profilo' : 'Accedi'}">Area Riservata</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@
         </div>
 
         <div class="text-center my-4">
-            <a class="btn" th:href="@{/checkout(id=${itinerario.id})}" id="tastoPrenotaItinerario" th:text="${prenotazioneBloccata ? 'Non disponibile' : 'Prenota Itinerario'}">Prenota Itinerario</a>
+            <a class="bottone btn" th:href="@{/checkout(id=${itinerario.id})}" id="tastoPrenotaItinerario" th:text="${prenotazioneBloccata ? 'Non disponibile' : 'Prenota Itinerario'}">Prenota Itinerario</a>
         </div>
         <hr>
         <div class="image-container my-3">

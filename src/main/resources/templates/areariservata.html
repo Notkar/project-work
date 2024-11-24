@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina Utente</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link th:href="@{CSS/style.css}" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -54,7 +55,7 @@
         <div class="info-utente">
             <h2>
                 Informazioni Utente
-                <a type="button" data-bs-toggle="modal" data-bs-target="#modificaDati"> <!-- PULSANTE APERTURA MODALE -->
+                <a type="button" data-bs-toggle="modal" data-bs-target="#modificaDati"><!-- PULSANTE APERTURA MODALE -->
                     <i class="bi bi-pencil-square"></i>
                 </a>
             </h2>
@@ -83,31 +84,57 @@
                                 </div>
                             </form>
                             <div class="modifica-dati" id="modifica-dati">
-                                <form method="post" action="/areariservata/modificaDati" th:object="${utente}" id="formModificaRegistrazione">
+                                <form method="post" action="/areariservata/modificaDati" th:object="${utente}"
+                                      id="formModificaRegistrazione">
                                     <input type="hidden" th:field="*{id}">
                                     <div class="mb-3">
-                                        <label for="nome" class="form-label">Nome: </label>
-                                        <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Inserisci Nome" maxlength="50" required>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="nome" th:field="*{nome}"
+                                                   placeholder="Inserisci Nome" maxlength="50" required>
+                                            <label for="nome">Nome</label>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="cognome" class="form-label">Cognome: </label>
-                                        <input type="text" class="form-control" id="cognome" th:field="*{cognome}" placeholder="Inserisci Cognome" maxlength="50" required>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="cognome" th:field="*{cognome}"
+                                                   placeholder="Inserisci Cognome" maxlength="50" required>
+                                            <label for="cognome">Cognome</label>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Nome Utente: </label>
-                                        <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Inserisci Nome Utente" maxlength="50" required>
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="username" th:field="*{username}"
+                                                   placeholder="Inserisci Nome Utente" maxlength="50" required>
+                                            <label for="username">Nome Utente</label>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">Email: </label>
-                                        <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Inserisci Email" maxlength="50" required>
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control" id="email" th:field="*{email}"
+                                                   placeholder="Inserisci Email" maxlength="50" required>
+                                            <label for="email">Email</label>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="nascita" class="form-label">Data di Nascita: </label>
-                                        <input type="date" class="form-control" id="nascita" name="dataNascita" th:value="${dataNascitaFormattata}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control" id="nascita" name="dataNascita"
+                                                   th:value="${dataNascitaFormattata}"
+                                                   placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
+                                            <label for="nascita">Data di Nascita</label>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="registrazione-password" class="form-label">Password: </label>
-                                        <input type="text" class="form-control" id="registrazione-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
+                                        <div class="input-group">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="registrazione-password"
+                                                       th:field="*{password}" placeholder="Crea una password"
+                                                       minlength="8" maxlength="50" required>
+                                                <label for="registrazione-password">Password</label>
+                                            </div>
+                                            <button class="btn password-toggle" type="button" id="toggle-cambio-password">
+                                                <i id="icona-toggle-cambio-password" class="bi bi-eye-slash"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -116,8 +143,10 @@
                             <button type="button" class="bottone-chiusura-modal btn" data-bs-dismiss="modal">
                                 Chiudi
                             </button>
-                            <button type="reset" id="resetButton" class="btn" form="formModificaRegistrazione" >Reset</button>
-                            <button type="submit" id="procedi" class="bottone btn" form="formConfermaPassword">Procedi</button>
+                            <button type="reset" id="resetButton" class="btn" form="formModificaRegistrazione">Reset
+                            </button>
+                            <button type="submit" id="procedi" class="bottone btn" form="formConfermaPassword">Procedi
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -143,7 +172,8 @@
             <!-- DATI UTENTE -->
             <p><strong>Nome: </strong><span th:text="${utente.nome}"></span></p>
             <p><strong>Cognome: </strong><span th:text="${utente.cognome}"></span></p>
-            <p><strong>Data di Nascita: </strong><span th:text="${#temporals.format(utente.dataNascita, 'dd/MM/yyyy')}"></span></p>
+            <p><strong>Data di Nascita: </strong><span
+                    th:text="${#temporals.format(utente.dataNascita, 'dd/MM/yyyy')}"></span></p>
             <p><strong>Email: </strong><span th:text="${utente.email}"></span></p>
             <p><strong>Username: </strong><span th:text="${utente.username}"></span></p>
 
@@ -173,26 +203,27 @@
             <p>Compila il modulo per iscriverti come guida.</p>
             <form action="/areariservata/candidati" method="post" enctype="multipart/form-data"
                   th:object="${candidato}">
-                <div class="mb-3">
-                    <label for="descrizioneCandidato" class="form-label">Breve descrizione di sé</label>
-                    <textarea class="form-control" id="descrizioneCandidato" name="descrizione" rows="3"
-                              placeholder="Scrivi una breve descrizione di te" required th:field="*{descrizione}"
-                              maxlength="65535"></textarea>
+                <div class="form-floating mb-3">
+            <textarea class="form-control" id="descrizioneCandidato" name="descrizione"
+                      placeholder="Scrivi una breve descrizione di te" required th:field="*{descrizione}"
+                      maxlength="65535" style="height: 100px;"></textarea>
+                    <label for="descrizioneCandidato">Breve descrizione di sé</label>
                 </div>
-                <div class="mb-3">
-                    <label for="telefonoCandidato" class="form-label">Recapito Telefonico</label>
+                <div class="form-floating mb-3">
                     <input type="tel" class="form-control" id="telefonoCandidato" name="telefono"
                            placeholder="Inserisci il tuo numero di telefono" required th:field="*{telefono}"
                            maxlength="15">
+                    <label for="telefonoCandidato">Recapito Telefonico</label>
                 </div>
                 <div class="mb-3">
                     <label for="fotoPersonale" class="form-label">Fotografia Personale (massimo 1 MB)</label>
-                    <input type="file" class="form-control" id="fotoPersonale" name="foto" accept="image/*" required
-                           th:field="*{foto}">
+                    <input type="file" class="form-control" id="fotoPersonale" name="foto" accept="image/*"
+                           required th:field="*{foto}">
                 </div>
                 <button type="submit" class="bottone btn">Invia Richiesta</button>
             </form>
         </div>
+
 
         <!-- SEZIONE PRENOTAZIONI -->
         <div id="sezione-prenotazioni" class="sezione-prenotazioni">
@@ -264,7 +295,9 @@
 </footer>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
@@ -274,6 +307,8 @@
     // costanti
     const campoInputConfermaPassword = document.getElementById("richiesta-password");
     const iconaTogglePassword = document.getElementById("icona-toggle-password");
+    const campoInputNuovaPassword = document.getElementById("registrazione-password");
+    const iconaToggleNuovaPassword = document.getElementById("icona-toggle-cambio-password");
     const tastoProcedi = document.getElementById("procedi");
     campoInputModificaUsername = document.getElementById("username");
     campoInputModificaEmail = document.getElementById("email");
@@ -337,7 +372,7 @@
                     // Mostra il div modifica-dati
                     document.getElementById("modifica-dati").style.display = "block";
                     // trasforma campo password in input type="password"
-                    document.getElementById("registrazione-password").type = "password";
+                    campoInputNuovaPassword.type = "password";
 
                     // modifico il tasto procedi
                     tastoProcedi.innerText = "Salva";
@@ -441,14 +476,26 @@
     });
 
     // Pulsante vissualizza/nascondi password
-    document.getElementById("toggle-password").addEventListener("click", function() {
+    function togglePassword(campo, icona) {
 
         // Cambia il tipo del campo password
-        campoInputConfermaPassword.type = campoInputConfermaPassword.type == "password" ? "text" : "password";
+        campo.type = campo.type === "password" ? "text" : "password";
 
         // Cambia l'icona
-        iconaTogglePassword.className = iconaTogglePassword.className == "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
+        icona.className = icona.className === "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
+    };
+
+    // Event listener per il primo toggle (conferma password)
+    document.getElementById("toggle-password").addEventListener("click", function() {
+        togglePassword(campoInputConfermaPassword, iconaTogglePassword);
     });
+
+    // Event listener per il secondo toggle (modifica password)
+    document.getElementById("toggle-cambio-password").addEventListener("click", function() {
+        togglePassword(campoInputNuovaPassword, iconaToggleNuovaPassword);
+    });
+
+
 </script>
 <!-- Blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
 <script th:if="${candidaturaBloccata}">document.getElementById("toggle-guide-btn").disabled = true;</script>

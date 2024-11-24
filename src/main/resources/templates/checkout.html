@@ -12,7 +12,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
-<body>
 <div class="container mb-5 mt-3">
     <div class="d-flex justify-content-between align-items-center ">
         <!-- Bottone Indietro -->
@@ -24,105 +23,106 @@
         <h2 class="text-center flex-grow-1 fw-bold">Checkout</h2>
     </div>
 
-<form id="checkoutForm" method="post" action="/checkout/invia">
-    <!-- Sezione Dettagli Cliente -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Dettagli Cliente</h4>
-        </div>
-        <div class="card-body">
-            <div class="mb-3">
-                <label for="name" class="form-label">Nome e cognome</label>
-                <input type="text" class="form-control" id="name" name="nomeCompleto" required
-                       placeholder="Inserisci nome e cognome" maxlength="100" list="nomeCognomeUtente">
-                <datalist id="nomeCognomeUtente">
-                    <option th:value="${utente.nome} + ' ' + ${utente.cognome}"></option>
-                </datalist>
+    <form id="checkoutForm" method="post" action="/checkout/invia">
+        <!-- Sezione Dettagli Cliente -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">Dettagli Cliente</h4>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required
-                       placeholder="Inserisci la tua email" maxlength="50" list="emailUtente">
-                <datalist id="emailUtente">
-                    <option th:value="${utente.email}"></option>
-                </datalist>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Numero di Telefono</label>
-                <input type="tel" class="form-control" id="phone" name="telefono"
-                       placeholder="Inserisci il tuo numero di telefono" required maxlength="15">
-            </div>
-            <div class="mb-3">
-                <label for="numeroPartecipanti" class="form-label">Numero di Partecipanti (Max 4): </label>
-                <select class="form-select" id="numeroPartecipanti" name="numeroPartecipanti" required>
-                    <option selected value="" disabled>Scegliere il numero di partecipanti</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="dateDisponibili" class="form-label">Date Disponibili: </label>
-                <select class="form-select" id="dateDisponibili" name="dataOraScelta" required>
-                    <option selected disabled value="">Scegliere data</option>
-                    <option th:each="data : ${dateDisponibili}"
-                            th:text="${#temporals.format(data.data, 'dd/MM/yyyy')} + ' - ' + ${data.ora}"></option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sezione Metodo di Pagamento -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Metodo di Pagamento</h4>
-        </div>
-        <div class="card-body">
-            <div class="mb-3">
-                <label for="numeroCarta" class="form-label">Numero di Carta</label>
-                <input type="text" class="form-control" id="numeroCarta" placeholder="1234 5678 9012 3456" required>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="dataScadenza" class="form-label">Data di Scadenza</label>
-                    <input type="text" class="form-control" id="dataScadenza" placeholder="MM/YY" required>
+            <div class="card-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" name="nomeCompleto" placeholder="Nome e cognome"
+                           required maxlength="100" list="nomeCognomeUtente">
+                    <label for="name">Nome e Cognome</label>
+                    <datalist id="nomeCognomeUtente">
+                        <option th:value="${utente.nome} + ' ' + ${utente.cognome}"></option>
+                    </datalist>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="cvv" class="form-label">CVV</label>
-                    <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required
+                           maxlength="50" list="emailUtente">
+                    <label for="email">Email</label>
+                    <datalist id="emailUtente">
+                        <option th:value="${utente.email}"></option>
+                    </datalist>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="phone" name="telefono" placeholder="Telefono" required
+                           maxlength="15">
+                    <label for="phone">Numero di Telefono</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="numeroPartecipanti" name="numeroPartecipanti" required>
+                        <option selected disabled value="">Scegli il numero di partecipanti</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                    <label for="numeroPartecipanti">Numero di Partecipanti (Max 4)</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="dateDisponibili" name="dataOraScelta" required>
+                        <option selected disabled value="">Scegli data</option>
+                        <option th:each="data : ${dateDisponibili}"
+                                th:text="${#temporals.format(data.data, 'dd/MM/yyyy')} + ' - ' + ${data.ora}"></option>
+                    </select>
+                    <label for="dateDisponibili">Date Disponibili</label>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Sezione Riepilogo Ordine -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4 class="mb-0">Riepilogo Ordine</h4>
-        </div>
-        <div class="card-body">
-            <div class="list-group">
-                <div class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <input type="hidden" id="idItinerario" th:value="${itinerario.id}" name="idItinerario">
-                    <div>
-                        <strong>Itinerario: </strong>
-                        <span th:text="${itinerario.nome}"></span>
+        <!-- Sezione Metodo di Pagamento -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">Metodo di Pagamento</h4>
+            </div>
+            <div class="card-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="numeroCarta" placeholder="1234 5678 9012 3456" required>
+                    <label for="numeroCarta">Numero di Carta</label>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-floating mb-3">
+                        <input type="text" class="form-control" id="dataScadenza" placeholder="MM/YY" required>
+                        <label for="dataScadenza" class="form-data-scadenza">Data di Scadenza</label>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <label for="totale" class="me-2">Totale:</label>
-                        <input type="text" class="form-control text-end" id="totale" name="totale"
-                               form="checkoutForm" value="€0.00" readonly required style="width: 80px;">
+                    <div class="col-md-6 form-floating mb-3">
+                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                        <label for="cvv" class="form-cvv">CVV</label>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Pulsante di Invio -->
-    <button type="submit" class="bottone btn btn-lg w-100 mb-4">Completa il Pagamento</button>
-</form>
+        <!-- Sezione Riepilogo Ordine -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">Riepilogo Ordine</h4>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    <div class="list-group-item d-flex justify-content-between align-items-center p-3">
+                        <input type="hidden" id="idItinerario" th:value="${itinerario.id}" name="idItinerario">
+                        <div>
+                            <strong>Itinerario: </strong>
+                            <span th:text="${itinerario.nome}"></span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <label for="totale" class="me-2">Totale:</label>
+                            <input type="text" class="form-control text-end" id="totale" name="totale"
+                                   value="€0.00" readonly required style="width: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pulsante di Invio -->
+        <button type="submit" class="bottone btn btn-lg w-100 mb-4">Completa il Pagamento</button>
+    </form>
 </div>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -9,14 +9,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
     <link th:href="@{CSS/style.css}" rel="stylesheet">
     <style>
-       body {
-           background-image: url("immagine-login.jpg");
-           background-size: cover;
-       }
+        body {
+            background-image: url("immagine-login.jpg");
+            background-size: cover;
+        }
     </style>
 </head>
 <body>
-
 <div class="container mt-5">
     <!-- Form di Login -->
     <div class="form-container mx-auto" id="login-form">
@@ -27,15 +26,19 @@
         </div>
         <h2 class="text-center">Accedi</h2>
         <form method="post" action="/loginregistrazione/login">
-            <div class="mb-3">
-                <label for="login-username" class="form-label">Nome utente</label>
-                <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Inserisci il nome utente"
-                       required>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="login-username" name="login-username" placeholder="Nome utente" required>
+                <label for="login-username">Nome Utente</label>
             </div>
-            <div class="mb-3">
-                <label for="login-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="login-password" name="login-password" placeholder="Inserisci la password"
-                       required>
+            <div class="input-group mb-3">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="login-password" name="login-password"
+                           placeholder="Inserisci la password" required>
+                    <label for="login-password">Password</label>
+                </div>
+                <button class="btn password-toggle" type="button" id="toggle-password">
+                    <i id="icona-toggle-password" class="bi bi-eye-slash"></i>
+                </button>
             </div>
             <p th:if="${messaggio != null}" th:text="${messaggio}" th:style="${messaggio == 'Registrazione effettuata' ? 'color:white; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;' : 'color:orangered; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;'}"></p>
             <button type="submit" class="bottone btn w-100">Accedi</button>
@@ -52,29 +55,36 @@
             <h2 class="text-center">Registrati</h2>
         </div>
         <form method="post" action="/loginregistrazione/registrazione" th:object="${utente}" id="formModificaRegistrazione">
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome: </label>
-                <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Inserisci Nome" maxlength="50" required>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Nome" maxlength="50" required>
+                <label for="nome">Nome</label>
             </div>
-            <div class="mb-3">
-                <label for="cognome" class="form-label">Cognome: </label>
-                <input type="text" class="form-control" id="cognome" th:field="*{cognome}" placeholder="Inserisci Cognome" maxlength="50" required>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="cognome" th:field="*{cognome}" placeholder="Cognome" maxlength="50" required>
+                <label for="cognome">Cognome</label>
             </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Nome Utente: </label>
-                <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Inserisci Nome Utente" maxlength="50" required>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="Nome Utente" maxlength="50" required>
+                <label for="username">Nome Utente</label>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email: </label>
-                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Inserisci Email" maxlength="50" required>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Email" maxlength="50" required>
+                <label for="email">Email</label>
             </div>
-            <div class="mb-3">
-                <label for="nascita" class="form-label">Data di Nascita: </label>
-                <input type="date" class="form-control" id="nascita" th:field="*{dataNascita}" placeholder="Inserisci Data di Nascita" min="1900-01-01" required>
+            <div class="form-floating mb-3">
+                <input type="date" class="form-control" id="nascita" th:field="*{dataNascita}" placeholder="Data di Nascita" min="1900-01-01" required>
+                <label for="nascita">Data di Nascita</label>
             </div>
-            <div class="mb-3">
-                <label for="registrazione-password" class="form-label">Password: </label>
-                <input type="password" class="form-control" id="registrazione-password" th:field="*{password}" placeholder="Crea una password" minlength="8" maxlength="50" required>
+            <div class="input-group mb-3">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="registrazione-password"
+                           th:field="*{password}" placeholder="Crea una password"
+                           minlength="8" maxlength="50" required>
+                    <label for="registrazione-password">Password</label>
+                </div>
+                <button class="btn password-toggle" type="button" id="toggle-cambio-password">
+                    <i id="icona-toggle-cambio-password" class="bi bi-eye-slash"></i>
+                </button>
             </div>
             <p th:if="${messaggioDue != null}" th:text="${messaggioDue}" style="color:orangered; font-weight: bold; text-align: center; text-shadow: 0px 0px 5px black;"></p>
             <button type="submit" class="bottone btn w-100">Registrati</button>
@@ -90,6 +100,11 @@
 
 <!-- script per mostrare/nascondere i form di login e registrazione -->
 <script>
+    const campoInputConfermaPassword = document.getElementById("login-password");
+    const iconaTogglePassword = document.getElementById("icona-toggle-password");
+    const campoInputNuovaPassword = document.getElementById("registrazione-password");
+    const iconaToggleNuovaPassword = document.getElementById("icona-toggle-cambio-password");
+
     // Mostra il form di registrazione
     function mostraFormRegistrazione() {
         document.getElementById('login-form').classList.add('d-none');
@@ -101,6 +116,26 @@
         document.getElementById('register-form').classList.add('d-none');
         document.getElementById('login-form').classList.remove('d-none');
     }
+
+    // Pulsante vissualizza/nascondi password
+    function togglePassword(campo, icona) {
+
+        // Cambia il tipo del campo password
+        campo.type = campo.type === "password" ? "text" : "password";
+
+        // Cambia l'icona
+        icona.className = icona.className === "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
+    };
+
+    // Event listener per il primo toggle (conferma password)
+    document.getElementById("toggle-password").addEventListener("click", function() {
+        togglePassword(campoInputConfermaPassword, iconaTogglePassword);
+    });
+
+    // Event listener per il secondo toggle (modifica password)
+    document.getElementById("toggle-cambio-password").addEventListener("click", function() {
+        togglePassword(campoInputNuovaPassword, iconaToggleNuovaPassword);
+    });
 </script>
 <!-- se la registrazione è andata storta, la pagina si deve ricaricare con il form di registrazione aperto per mostrare un messaggio -->
 <script th:if="${messaggioDue != null}">

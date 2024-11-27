@@ -22,7 +22,6 @@ body {
 
 p {
     font-size: 1rem;
-    hyphens: auto;
 }
 
 h6 {
@@ -47,6 +46,11 @@ h3 {
 
 .page-wrapper {
     flex: 1 0 auto; /* Questo fa sì che il wrapper prenda tutto lo spazio disponibile */
+}
+
+.text-justify {
+    text-align: justify;
+    hyphens: auto;
 }
 
 /* HEADER */

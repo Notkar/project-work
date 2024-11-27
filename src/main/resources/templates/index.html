@@ -61,7 +61,7 @@
                         <option value="calabria">Calabria</option>
                         <option value="campania">Campania</option>
                         <option value="emilia-romagna">Emilia-Romagna</option>
-                        <option value="friuli-venezia giulia">Friuli Venezia Giulia</option>
+                        <option value="friuli-venezia giulia">Friuli-Venezia Giulia</option>
                         <option value="lazio">Lazio</option>
                         <option value="liguria">Liguria</option>
                         <option value="lombardia">Lombardia</option>
@@ -116,7 +116,7 @@
                             Itinerario 1</h5>
 
                         <!-- Versione breve del testo (sempre visibile) -->
-                        <p class="card-text"
+                        <p class="card-text text-justify"
                            th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">
                             Descrizione breve...
                         </p>

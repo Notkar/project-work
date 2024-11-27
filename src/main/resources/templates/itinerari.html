@@ -66,7 +66,7 @@
                                 <option value="calabria" th:selected="${#strings.equals(regioneSelezionata, 'calabria')}">Calabria</option>
                                 <option value="campania" th:selected="${#strings.equals(regioneSelezionata, 'campania')}">Campania</option>
                                 <option value="emilia-romagna" th:selected="${#strings.equals(regioneSelezionata, 'emilia-romagna')}">Emilia-Romagna</option>
-                                <option value="friuli-venezia giulia" th:selected="${#strings.equals(regioneSelezionata, 'friuli-venezia giulia')}">Friuli Venezia Giulia</option>
+                                <option value="friuli-venezia giulia" th:selected="${#strings.equals(regioneSelezionata, 'friuli-venezia giulia')}">Friuli-Venezia Giulia</option>
                                 <option value="lazio" th:selected="${#strings.equals(regioneSelezionata, 'lazio')}">Lazio</option>
                                 <option value="liguria" th:selected="${#strings.equals(regioneSelezionata, 'liguria')}">Liguria</option>
                                 <option value="lombardia" th:selected="${#strings.equals(regioneSelezionata, 'lombardia')}">Lombardia</option>
@@ -144,7 +144,7 @@
                             <div class="col-md-6">
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold" th:text="${itinerario.nome}">Titolo della Card</h5>
-                                    <p class="card-text"
+                                    <p class="card-text text-justify"
                                        th:text="${#strings.length(itinerario.descrizione) > 500 ? #strings.substring(itinerario.descrizione,0,500) + '...' : itinerario.descrizione}">
                                         Descrizione breve...
                                     </p>

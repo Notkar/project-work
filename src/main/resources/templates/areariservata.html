@@ -179,11 +179,11 @@
 
             <!-- TASTI CANDIDATURA & PRENOTAZIONI -->
             <div class="button-container">
-                <button class="bottone btn" id="toggle-guide-btn"
+                <button class="bottone btn" id="btn-sezione-guida"
                         th:text="${candidaturaBloccata ? 'Candidatura già inviata' : 'Iscriviti come guida'}">Iscriviti
                     come guida
                 </button>
-                <button class="bottone btn btn-info" id="toggle-bookings-btn">Le mie prenotazioni</button>
+                <button class="bottone btn btn-info" id="btn-sezione-prenotazioni">Le mie prenotazioni</button>
             </div>
 
             <!-- PULSANTE LOGOUT -->
@@ -301,204 +301,13 @@
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
-<!-- script per controlli su form di modifica dati utente -->
-<script th:src="@{validazioneNascitaPasswordUtente.js}"></script>
-<script>
-    // costanti
-    const campoInputConfermaPassword = document.getElementById("richiesta-password");
-    const iconaTogglePassword = document.getElementById("icona-toggle-password");
-    const campoInputNuovaPassword = document.getElementById("registrazione-password");
-    const iconaToggleNuovaPassword = document.getElementById("icona-toggle-cambio-password");
-    const tastoProcedi = document.getElementById("procedi");
-    campoInputModificaUsername = document.getElementById("username");
-    campoInputModificaEmail = document.getElementById("email");
-
-    // Inizializzazione delle modali
-    const modalElement = new bootstrap.Modal(document.getElementById('modificaDati'));
-    const modaleMessaggio = new bootstrap.Modal('#successoModifica'); // altro modo per inizializzare modale
-
-
-    // mostra/nascondi sezione guida
-    document.getElementById('toggle-guide-btn').addEventListener('click', function() {
-        let sezioneGuida = document.getElementById('sezione-guida');
-        if (sezioneGuida.style.display === 'none' || sezioneGuida.style.display === '') {
-            sezioneGuida.style.display = 'block';
-            document.getElementById('sezione-prenotazioni').style.display = 'none';
-        } else {
-            sezioneGuida.style.display = 'none';
-        }
-    });
-
-    // mostra/nascondi sezione prenotazioni
-    document.getElementById('toggle-bookings-btn').addEventListener('click', function() {
-        let sezionePrenotazioni = document.getElementById('sezione-prenotazioni');
-        if (sezionePrenotazioni.style.display === 'none' || sezionePrenotazioni.style.display === '') {
-            sezionePrenotazioni.style.display = 'block';
-            document.getElementById('sezione-guida').style.display = 'none';
-        } else {
-            sezionePrenotazioni.style.display = 'none';
-        }
-    });
-
-    // controllo grandezza file
-    document.getElementById("fotoPersonale").addEventListener("change", function() {
-        const file = this.files[0];
-        if (file) {
-            const grandezzaFileInMB = file.size / (1024 * 1024);
-            if (grandezzaFileInMB > 1) {
-                alert("Il file selezionato supera la dimensione massima di 1 MB. Si prega di scegliere un file più piccolo.");
-                this.value = "";
-            }
-        }
-    });
-
-    document.getElementById("formConfermaPassword").addEventListener("submit", function() {
-        event.preventDefault(); // blocca il submit
-        campoInputConfermaPassword.setCustomValidity(''); // resetto la custom validity
-
-        const inputPassword = campoInputConfermaPassword.value; // acquisisco l'input dell'utente dal campo della password
-
-        $.post (
-            // indirizzo di /areariservata a cui inviare la richiesta
-            "/areariservata/controlloPassword",
-            {
-                password:inputPassword // invio come parametro l'input dell'utente nel campo password
-            },
-            // restituisco dal controller un boolean true o false a seconda che la password sia corretta o meno
-            function(risposta) {
-                if(risposta){ // se la password inserita è corretta...
-                    // Nascondi il div controllo-password
-                    document.getElementById("controllo-password").style.display = "none";
-                    // Mostra il div modifica-dati
-                    document.getElementById("modifica-dati").style.display = "block";
-                    // trasforma campo password in input type="password"
-                    campoInputNuovaPassword.type = "password";
-
-                    // modifico il tasto procedi
-                    tastoProcedi.innerText = "Salva";
-                    tastoProcedi.setAttribute("form","formModificaRegistrazione");
-
-                    // mostro il tasto reset
-                    document.getElementById("resetButton").style.display = "block";
-
-                } else { // altrimenti se la password è errata...
-                    campoInputConfermaPassword.setCustomValidity('Password non corretta'); // imposto custom validity
-                    campoInputConfermaPassword.reportValidity(); // mostro messaggio di errore custom
-                }
-            }
-        )
-    });
-
-    campoInputConfermaPassword.addEventListener('input', function() {
-        this.setCustomValidity('');
-    });
-
-    document.getElementById("formModificaRegistrazione").addEventListener("submit", function() {
-        event.preventDefault(); // blocca il submit
-
-        inputModificaUsername = campoInputModificaUsername.value;
-        inputModificaEmail = campoInputModificaEmail.value;
-
-        let messaggioErrore = "";
-        campoInputModificaEmail.setCustomValidity("");
-        campoInputModificaUsername.setCustomValidity("");
-
-        $.post (
-            // invio username e email inseriti dall'utente al controller
-            "/areariservata/checkUsernameEmail",
-            {
-                username:inputModificaUsername,
-                email:inputModificaEmail
-            },
-            // lato back-end faccio i controlli del caso e ritorno una risposta che indica quale campo non va bene
-            function(risposta) {
-                switch(risposta){
-                    case "email":
-                        messaggioErrore = "Email già in uso."
-                        campoInputModificaEmail.setCustomValidity(messaggioErrore);
-                        campoInputModificaEmail.reportValidity();
-                        break;
-                    case "username":
-                        messaggioErrore = "Nome utente già in uso."
-                        campoInputModificaUsername.setCustomValidity(messaggioErrore);
-                        campoInputModificaUsername.reportValidity();
-                        break;
-                    default:
-                        break;
-                }
-
-                if (messaggioErrore === "") { // se il messaggio di errore è sempre una stringa vuota, allora i controlli su username e email sono passati con successo
-                    if (!validaPassword(campoInputPassword)) { // controllo su password; vedi file validazioneNascitaPasswordUtente.js
-                        campoInputPassword.reportValidity();
-                        return;
-                    }
-
-                    document.getElementById("formModificaRegistrazione").submit(); // superati i controlli posso procedere con il submit
-
-                } else { // altrimenti non procedo con il submit -> in questo modo vengono mostrati i messaggi custom di errore sul form grazie a reportValidity()
-                    return;
-                }
-            }
-        )
-    });
-
-    campoInputModificaUsername.addEventListener('input', function() {
-        this.setCustomValidity('');
-    });
-    campoInputModificaEmail.addEventListener('input', function() {
-        this.setCustomValidity('');
-    });
-
-
-
-    // Quando la modale viene chiusa...
-    modalElement._element.addEventListener('hidden.bs.modal', function () {
-
-        // ...ripristina la visibilità dei div
-        document.getElementById("controllo-password").style.display = "block";
-        document.getElementById("modifica-dati").style.display = "none";
-        // azzero value di campo di conferma password
-        campoInputConfermaPassword.value = "";
-        // Cambia il tipo del campo password
-        campoInputConfermaPassword.type = "password";
-        // Cambia l'icona
-        iconaTogglePassword.className = "bi bi-eye-slash";
-        // Ripristino il tasto procedi
-        tastoProcedi.innerText = "Procedi";
-        tastoProcedi.setAttribute("form","formConfermaPassword");
-        // nascondo il tasto reset
-        document.getElementById("resetButton").style.display = "none";
-        // resetto il form di modifica dati
-        document.getElementById('formModificaRegistrazione').reset();
-        // resetto custom validity
-        campoInputModificaEmail.setCustomValidity("");
-        campoInputModificaUsername.setCustomValidity("");
-    });
-
-    // Pulsante vissualizza/nascondi password
-    function togglePassword(campo, icona) {
-
-        // Cambia il tipo del campo password
-        campo.type = campo.type === "password" ? "text" : "password";
-
-        // Cambia l'icona
-        icona.className = icona.className === "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
-    };
-
-    // Event listener per il primo toggle (conferma password)
-    document.getElementById("toggle-password").addEventListener("click", function() {
-        togglePassword(campoInputConfermaPassword, iconaTogglePassword);
-    });
-
-    // Event listener per il secondo toggle (modifica password)
-    document.getElementById("toggle-cambio-password").addEventListener("click", function() {
-        togglePassword(campoInputNuovaPassword, iconaToggleNuovaPassword);
-    });
-
-
-</script>
-<!-- Blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
-<script th:if="${candidaturaBloccata}">document.getElementById("toggle-guide-btn").disabled = true;</script>
+<!-- script per controlli su modifica password (condivisi con il form di registrazione in login-registrazione.html) -->
+<script th:src="@{JS/validazioneNascitaPasswordUtente.js}"></script>
+<!-- script per funzionalità generali di areariservata.html (mostro/nascondo sezioni, controlli su form di modifica dati utente) -->
+<script th:src="@{JS/areaRiservata.js}"></script>
+<!-- blocco tasto candidatura (per quando sul database esiste già una candidatura associata all'utente) -->
+<script th:if="${candidaturaBloccata}">document.getElementById("btn-sezione-guida").disabled = true;</script>
+<!-- mostro modale con messaggio di conferma (post candidatura & post modifica dati utente) -->
 <script th:if="${messaggio != null}">modaleMessaggio.show();</script>
 </body>
 </html>

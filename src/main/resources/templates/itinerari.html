@@ -233,61 +233,8 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
 <!-- Script stelle difficoltà -->
-<script th:src="@{stampaStelleDifficoltà.js}"></script>
-
-<script>
-    // js per controllo per le checkbox
-
-    // ci dev'essere un controllo al momento del submit del form
-    document.getElementById("formFiltri").addEventListener("submit", function(event) {
-
-        if (!validateCheckbox()) {
-            event.preventDefault();
-            const checkBoxes = document.getElementsByClassName("checkboxDifficolta");
-            for (let checkbox of checkBoxes) {
-                // Trigger validation visibility
-                checkbox.reportValidity();
-            }
-        }
-    });
-
-    // refresh della validity al click su una checkbox
-    let checkboxArray = document.querySelectorAll("input[type='checkbox'].checkboxDifficolta");
-    checkboxArray.forEach(function(checkbox) {
-        checkbox.addEventListener("click", function(event) {
-            this.setCustomValidity("");
-            // Clear validity on all checkboxes to reset the form validation
-            checkboxArray.forEach(cb => cb.setCustomValidity(""));
-        });
-    });
-
-    // funzione di validazione
-    function validateCheckbox() {
-        var checkBoxes = document.getElementsByClassName("checkboxDifficolta");
-        var isChecked = false;
-
-        for (var i = 0; i < checkBoxes.length; i++) {
-            if (checkBoxes[i].checked) {
-                isChecked = true;
-                break;
-            }
-        }
-
-        if (isChecked) {
-            // Clear custom validity for all checkboxes
-            for (var i = 0; i < checkBoxes.length; i++) {
-                checkBoxes[i].setCustomValidity("");
-            }
-            return true;
-        } else {
-            const errorMessage = "Seleziona almeno una difficoltà";
-            // Set custom validity on all checkboxes
-            for (var i = 0; i < checkBoxes.length; i++) {
-                checkBoxes[i].setCustomValidity(errorMessage);
-            }
-            return false;
-        }
-    }
-</script>
+<script th:src="@{JS/stampaStelleDifficoltà.js}"></script>
+<!-- controllo selezione checkbox per filtro di difficoltà (almeno 1 deve essere selezionata) -->
+<script th:src="@{JS/controlloCheckboxDifficoltà.js}"></script>
 </body>
 </html>

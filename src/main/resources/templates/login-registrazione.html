@@ -98,13 +98,8 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<!-- script per mostrare/nascondere i form di login e registrazione -->
+<!-- script per mostrare/nascondere i form di login e registrazione + per mostrare/nascondere la password nei due form -->
 <script>
-    const campoInputConfermaPassword = document.getElementById("login-password");
-    const iconaTogglePassword = document.getElementById("icona-toggle-password");
-    const campoInputNuovaPassword = document.getElementById("registrazione-password");
-    const iconaToggleNuovaPassword = document.getElementById("icona-toggle-cambio-password");
-
     // Mostra il form di registrazione
     function mostraFormRegistrazione() {
         document.getElementById('login-form').classList.add('d-none');
@@ -117,22 +112,24 @@
         document.getElementById('login-form').classList.remove('d-none');
     }
 
-    // Pulsante vissualizza/nascondi password
+    // Funzione mostra/nascondi password
     function togglePassword(campo, icona) {
-
-        // Cambia il tipo del campo password
+        // Cambia il type del campo ("text" -> "password" e viceversa)
         campo.type = campo.type === "password" ? "text" : "password";
-
         // Cambia l'icona
         icona.className = icona.className === "bi bi-eye-slash" ? "bi bi-eye" : "bi bi-eye-slash";
     };
 
-    // Event listener per il primo toggle (conferma password)
+    // toggle visualizzazione password (login)
+    const campoInputConfermaPassword = document.getElementById("login-password");
+    const iconaTogglePassword = document.getElementById("icona-toggle-password");
     document.getElementById("toggle-password").addEventListener("click", function() {
         togglePassword(campoInputConfermaPassword, iconaTogglePassword);
     });
 
-    // Event listener per il secondo toggle (modifica password)
+    // toggle visualizzazione password (registrazione)
+    const campoInputNuovaPassword = document.getElementById("registrazione-password");
+    const iconaToggleNuovaPassword = document.getElementById("icona-toggle-cambio-password");
     document.getElementById("toggle-cambio-password").addEventListener("click", function() {
         togglePassword(campoInputNuovaPassword, iconaToggleNuovaPassword);
     });
@@ -143,6 +140,6 @@
     document.getElementById('register-form').classList.remove('d-none');
 </script>
 <!-- script per controlli su form di registrazione -->
-<script th:src="@{validazioneNascitaPasswordUtente.js}"></script>
+<script th:src="@{JS/validazioneNascitaPasswordUtente.js}"></script>
 </body>
 </html>

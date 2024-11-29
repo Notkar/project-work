@@ -126,7 +126,9 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script th:src="@{checkoutFormValidation.js}"></script>
-<script th:src="@{controlloPrezzo.js}"></script>
+<!-- validazione input carta per pagamento -->
+<script th:src="@{JS/validazioneFormCheckout.js}"></script>
+<!-- modifica prezzo totale in base a numero di partecipanti -->
+<script th:src="@{JS/controlloPrezzo.js}"></script>
 </body>
 </html>
